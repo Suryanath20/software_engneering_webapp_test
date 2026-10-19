@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "ANDtr Medical Device Safety and Recall Notice Platform",
   "scripts": {
-    "start": "dotnet run --project src/ANDtr.Web",
-    "dev": "dotnet watch --project src/ANDtr.Web",
+    "start": "dotnet run",
+    "dev": "dotnet watch",
     "build": "dotnet build ANDtr.sln",
     "test": "dotnet test ANDtr.sln",
     "docker:up": "docker compose up -d",

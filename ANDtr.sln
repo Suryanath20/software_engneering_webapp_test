@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ANDtr.Web", "src\ANDtr.Web\ANDtr.Web.csproj", "{4585DE56-4B1C-4B7C-A583-8B39B2A8C101}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ANDtr.Web", "ANDtr.Web.csproj", "{4585DE56-4B1C-4B7C-A583-8B39B2A8C101}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ANDtr.Tests", "tests\ANDtr.Tests\ANDtr.Tests.csproj", "{8592CF41-2679-4A7B-9CE1-4B5282CD1B02}"
 EndProject

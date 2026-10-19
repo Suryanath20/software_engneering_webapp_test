@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ANDtr.Web\ANDtr.Web.csproj" />
+    <ProjectReference Include="..\..\ANDtr.Web.csproj" />
   </ItemGroup>
 
 </Project>
