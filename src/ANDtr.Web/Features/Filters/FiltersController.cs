@@ -21,11 +21,7 @@ public class FiltersController : Controller
     [HttpGet]
     public async Task<IActionResult> Index([FromQuery] FilterViewModel model)
     {
-        // Default to Class 1 if none specified
-        if (model.Classes == null || model.Classes.Count == 0)
-        {
-            model.Classes = new List<string> { "1" };
-        }
+        model.Classes ??= new List<string>();
 
         var criteria = new NoticeSearchCriteria
         {

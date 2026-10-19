@@ -193,4 +193,20 @@ public class NoticeSearchServiceTests
         Assert.True(result.HasNextPage);
         Assert.False(result.HasPreviousPage);
     }
+
+    [Fact]
+    public void SearchViewModel_DefaultsToEmptyKeyword()
+    {
+        var model = new ANDtr.Web.Features.Search.SearchViewModel();
+        Assert.True(string.IsNullOrEmpty(model.Keyword), "SearchViewModel.Keyword must default to empty/null so the search input box is blank.");
+    }
+
+    [Fact]
+    public void FilterViewModel_DefaultsToEmptyKeywordAndClasses()
+    {
+        var model = new ANDtr.Web.Features.Filters.FilterViewModel();
+        Assert.True(string.IsNullOrEmpty(model.Keyword), "FilterViewModel.Keyword must default to empty/null.");
+        Assert.Empty(model.Classes);
+    }
 }
+

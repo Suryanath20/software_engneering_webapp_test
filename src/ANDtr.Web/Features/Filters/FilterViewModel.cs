@@ -5,8 +5,8 @@ namespace ANDtr.Web.Features.Filters;
 
 public class FilterViewModel
 {
-    public string? Keyword { get; set; } = "leak";
-    public List<string> Classes { get; set; } = new() { "1" };
+    public string? Keyword { get; set; }
+    public List<string> Classes { get; set; } = new();
     public string? FirmName { get; set; }
     public string? ProductCode { get; set; }
     public DateTime? FromDate { get; set; }

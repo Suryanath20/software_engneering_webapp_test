@@ -2,7 +2,7 @@ namespace ANDtr.Web.Features.Search;
 
 public class SearchViewModel
 {
-    public string? Keyword { get; set; } = "leak";
+    public string? Keyword { get; set; }
     public bool SearchInDescription { get; set; } = true;
     public bool SearchInTradeName { get; set; } = true;
     public bool SearchInFirmName { get; set; } = true;
