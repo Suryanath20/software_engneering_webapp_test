@@ -1,0 +1,82 @@
+@model ANDtr.Web.Features.Customers.CustomerListViewModel
+@{
+    Layout = "_EmployeeLayout";
+    ViewData["Title"] = "Customers";
+}
+
+<div class="head">
+    <div>
+        <h1>Customers</h1>
+        <p class="muted small">Customer accounts that can view the reviews you share.</p>
+    </div>
+    <div class="head-act">
+        <a class="btn btn-primary" href="/Customers/Create">
+            <svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            Create Customer Account
+        </a>
+    </div>
+</div>
+
+<form method="get" action="/Customers" class="toolrow">
+    <input type="text" name="search" value="@Model.Search" placeholder="Search customers..." aria-label="Search customers" />
+</form>
+
+@if (Model.Customers.Count == 0)
+{
+    <div class="panel">
+        <div class="empty">
+            <b>No customers found.</b>
+            <span class="muted small">Create your first customer account to begin sharing reviews.</span>
+            <a class="btn btn-primary btn-sm" href="/Customers/Create">Create Customer Account</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="tbl-wrap">
+        <table class="tbl">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Company</th>
+                    <th>Created</th>
+                    <th>Reviews shared</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model.Customers)
+                {
+                    <tr>
+                        <td><b>@c.FullName</b></td>
+                        <td>@c.Email</td>
+                        <td>@(string.IsNullOrEmpty(c.CompanyName) ? "—" : c.CompanyName)</td>
+                        <td>@c.CreatedAt.ToString("d MMM yyyy")</td>
+                        <td>@c.ReviewsSharedCount</td>
+                        <td>
+                            @if (c.IsActive)
+                            {
+                                <span class="badge b-green">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge b-red">Inactive</span>
+                            }
+                        </td>
+                        <td class="nowrap">
+                            <a class="btn btn-outline btn-sm" href="/Sharing">Share a Review</a>
+                            <form asp-controller="Customers" asp-action="ToggleActive" method="post" style="display:inline;">
+                                <input type="hidden" name="customerId" value="@c.Id" />
+                                <button class="btn btn-sm @(c.IsActive ? "btn-danger" : "btn-primary")" type="submit">
+                                    @(c.IsActive ? "Deactivate" : "Activate")
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
