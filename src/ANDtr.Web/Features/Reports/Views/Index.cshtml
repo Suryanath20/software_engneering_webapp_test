@@ -1,0 +1,180 @@
+@model ANDtr.Web.Features.Reports.ReportViewModel
+@{
+    var isCustomer = User.IsInRole("Customer");
+    Layout = isCustomer ? "_CustomerLayout" : "_EmployeeLayout";
+    ViewData["Title"] = "Review Report";
+}
+
+<div class="head">
+    <div>
+        <h1>Review Report</h1>
+        <p class="muted small">Generate a printable summary of a risk review.</p>
+    </div>
+    <div class="head-act">
+        <button class="btn btn-primary js-print" type="button">
+            <svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>
+            Print or Save as PDF
+        </button>
+        @if (Model.ReportData != null)
+        {
+            <a class="btn btn-outline" href="/Reports/ExportCsv?reviewId=@Model.ReportData.ReviewId">
+                <svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                Export CSV
+            </a>
+        }
+    </div>
+</div>
+
+<div class="cols-r">
+    <!-- Controls Sidebar -->
+    <aside class="panel controls">
+        <h2>Report Options</h2>
+        <label for="repReview">Select Review</label>
+        <select id="repReview" onchange="window.location.href='/Reports?reviewId=' + this.value;">
+            @foreach (var r in Model.AvailableReviews)
+            {
+                if (r.Id == Model.SelectedReviewId)
+                {
+                    <option value="@r.Id" selected>@r.Title</option>
+                }
+                else
+                {
+                    <option value="@r.Id">@r.Title</option>
+                }
+            }
+        </select>
+
+        @if (Model.ReportData != null)
+        {
+            <h3 class="gap">Summary metrics</h3>
+            <table class="kv aside-kv">
+                <tr><th>Notices</th><td><b>@Model.ReportData.Notices.Count</b></td></tr>
+                <tr><th>Class I</th><td><b>@Model.ReportData.Class1Count</b></td></tr>
+                <tr><th>Class II</th><td><b>@Model.ReportData.Class2Count</b></td></tr>
+                <tr><th>Class III</th><td><b>@Model.ReportData.Class3Count</b></td></tr>
+            </table>
+
+            <div class="actions col" style="margin-top: 20px;">
+                <button class="btn btn-primary btn-block js-print" type="button">Print Document</button>
+                <a class="btn btn-outline btn-block" href="/Reports/ExportCsv?reviewId=@Model.ReportData.ReviewId">Download CSV Data</a>
+                <a class="btn btn-outline btn-block" href="/SharedReviews/Details/@Model.ReportData.ReviewId">View in App</a>
+            </div>
+        }
+    </aside>
+
+    <!-- Printable Report Document -->
+    <div>
+        @if (Model.ReportData == null)
+        {
+            <div class="panel">
+                <div class="empty">
+                    <b>No risk review selected.</b>
+                    <span class="muted small">Please select a review from the dropdown above to view the report.</span>
+                </div>
+            </div>
+        }
+        else
+        {
+            <article class="panel" id="printableReport" style="padding: 32px 36px;">
+                <!-- Header -->
+                <div style="border-bottom: 2px solid var(--brand); padding-bottom: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end;">
+                    <div>
+                        <b style="color: var(--brand); font-size: 26px; letter-spacing: -0.5px;">ANDtr</b>
+                        <span style="display: block; font-size: 13px; color: var(--muted); font-weight: 500;">Medical Device Safety & Recall Intelligence Platform</span>
+                        <h2 style="font-size: 20px; margin: 12px 0 4px; color: #111827;">@Model.ReportData.Title</h2>
+                    </div>
+                    <div class="right" style="font-size: 12px; color: var(--muted);">
+                        <div>Report Generated: <b>@Model.ReportData.GeneratedAt.ToString("d MMMM yyyy, HH:mm") UTC</b></div>
+                        <div>Prepared by: <b>@Model.ReportData.AuthorName</b></div>
+                        <div style="margin-top: 4px;">
+                            Status: <span class="badge @(Model.ReportData.Status == "Published" ? "b-green" : "b-grey")">@Model.ReportData.Status</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scope / Executive Summary -->
+                <section style="margin-bottom: 24px;">
+                    <h3 style="border-bottom: 1px solid var(--line); padding-bottom: 4px; color: var(--brand);">1. Scope & Executive Summary</h3>
+                    <p style="font-size: 13.5px; line-height: 1.6; color: #374151;">
+                        @(string.IsNullOrEmpty(Model.ReportData.Summary) ? "No executive summary provided." : Model.ReportData.Summary)
+                    </p>
+                </section>
+
+                <!-- Findings and Assessment -->
+                <section style="margin-bottom: 28px;">
+                    <h3 style="border-bottom: 1px solid var(--line); padding-bottom: 4px; color: var(--brand);">2. Findings & Risk Evaluation</h3>
+                    <div style="font-size: 13.5px; line-height: 1.6; color: #374151;">
+                        @if (!string.IsNullOrEmpty(Model.ReportData.FindingsHtml))
+                        {
+                            @Html.Raw(Model.ReportData.FindingsHtml)
+                        }
+                        else
+                        {
+                            <p class="muted">No detailed findings recorded.</p>
+                        }
+                    </div>
+                </section>
+
+                <!-- Associated Safety Notices Table -->
+                <section>
+                    <h3 style="border-bottom: 1px solid var(--line); padding-bottom: 4px; color: var(--brand);">3. Associated Recall Notices (@Model.ReportData.Notices.Count)</h3>
+                    <div class="tbl-wrap" style="box-shadow: none; border-radius: 4px;">
+                        <table class="tbl">
+                            <thead>
+                                <tr>
+                                    <th>Recall number</th>
+                                    <th>Product</th>
+                                    <th>Firm</th>
+                                    <th>Class</th>
+                                    <th>Classified</th>
+                                    <th>Per-Notice Note / Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var n in Model.ReportData.Notices)
+                                {
+                                    <tr>
+                                        <td class="mono"><b>@n.RecallNumber</b></td>
+                                        <td>
+                                            <b>@n.TradeName</b>
+                                            <small>Code: @n.ProductCode &bull; Reg: @n.RegulationNumber</small>
+                                        </td>
+                                        <td>@n.FirmName</td>
+                                        <td>
+                                            @if (n.RecallClass == "1")
+                                            {
+                                                <span class="badge b-red">Class I</span>
+                                            }
+                                            else if (n.RecallClass == "2")
+                                            {
+                                                <span class="badge b-amber">Class II</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge b-green">Class III</span>
+                                            }
+                                        </td>
+                                        <td>@n.ClassificationDate.ToString("yyyy-MM-dd")</td>
+                                        <td style="font-size: 12px; line-height: 1.4;">
+                                            @if (!string.IsNullOrEmpty(n.EmployeeNote))
+                                            {
+                                                <div style="font-weight: 600; color: #1f2937; margin-bottom: 2px;">Note: @n.EmployeeNote</div>
+                                            }
+                                            <div class="muted">@n.Reason</div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Signoff Footer -->
+                <div style="margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--muted); display: flex; justify-content: space-between;">
+                    <span>CONFIDENTIAL - Prepared for clinical risk management activities</span>
+                    <span>Page 1 of 1</span>
+                </div>
+            </article>
+        }
+    </div>
+</div>
