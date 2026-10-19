@@ -1,0 +1,117 @@
+@{
+    ViewData["Title"] = "ANDtr - Project Foundation";
+    Layout = "~/Shared_Base/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center text-center mb-5">
+        <div class="col-lg-9">
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fw-semibold mb-3">
+                <i class="bi bi-shield-check me-1"></i> MOD003263 Software Engineering — Week 1 Setup
+            </span>
+            <h1 class="display-5 fw-bold text-dark mb-3">ANDtr Medical Device Safety & Recall Platform</h1>
+            <p class="lead text-secondary">
+                ASP.NET Core 8 MVC web application architecture initialized with Entity Framework Core, Pomelo MySQL, Identity authentication, and responsive Bootstrap 5 interface.
+            </p>
+        </div>
+    </div>
+
+    <!-- Status Overview Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0 border-top border-primary border-3">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-primary text-white rounded-3 p-2 me-3">
+                            <i class="bi bi-layers fs-4"></i>
+                        </div>
+                        <h5 class="card-title mb-0 fw-bold">MVC Core Architecture</h5>
+                    </div>
+                    <p class="text-secondary small mb-3">Solution structured with Entity Framework Core 8, Razor View Engine, and clean domain models ready for member feature modules.</p>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle"><i class="bi bi-check-circle me-1"></i> Initialized</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0 border-top border-info border-3">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-info text-white rounded-3 p-2 me-3">
+                            <i class="bi bi-database fs-4"></i>
+                        </div>
+                        <h5 class="card-title mb-0 fw-bold">Database & Models</h5>
+                    </div>
+                    <p class="text-secondary small mb-3">MySQL 8 Pomelo provider configured with automated InMemory fallback for cross-platform team development.</p>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle"><i class="bi bi-check-circle me-1"></i> Schema Ready</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0 border-top border-success border-3">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-success text-white rounded-3 p-2 me-3">
+                            <i class="bi bi-people fs-4"></i>
+                        </div>
+                        <h5 class="card-title mb-0 fw-bold">Team Feature Branches</h5>
+                    </div>
+                    <p class="text-secondary small mb-3">Dedicated modular feature branches prepared for parallel development by all 5 student engineers.</p>
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle"><i class="bi bi-git me-1"></i> Agile Ready</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Members Table -->
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3 border-bottom">
+            <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-people-fill me-2 text-primary"></i>Team Feature Assignments</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class="ps-4">Team Member</th>
+                        <th scope="col">Assigned Feature Area</th>
+                        <th scope="col">Feature Branch</th>
+                        <th scope="col" class="text-end pe-4">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="ps-4 fw-semibold text-dark">Suryanath Sunil</td>
+                        <td>Accounts, Authentication & Executive Dashboard</td>
+                        <td><code>feature/suryanath-dashboard-search</code></td>
+                        <td class="text-end pe-4"><span class="badge bg-secondary">Branch Ready</span></td>
+                    </tr>
+                    <tr>
+                        <td class="ps-4 fw-semibold text-dark">Azlan Ahmed</td>
+                        <td>FDA Notice Ingestion & Intelligent Search</td>
+                        <td><code>feature/azlan-notice-import</code></td>
+                        <td class="text-end pe-4"><span class="badge bg-secondary">Branch Ready</span></td>
+                    </tr>
+                    <tr>
+                        <td class="ps-4 fw-semibold text-dark">Hassan Naveed</td>
+                        <td>Parametric Filtering & Risk Review Studio</td>
+                        <td><code>feature/hassan-reviews-findings</code></td>
+                        <td class="text-end pe-4"><span class="badge bg-secondary">Branch Ready</span></td>
+                    </tr>
+                    <tr>
+                        <td class="ps-4 fw-semibold text-dark">Sanjida Afrin</td>
+                        <td>Findings Rich-Text & Multi-Party Review Sharing</td>
+                        <td><code>feature/sanjida-sharing-collaboration</code></td>
+                        <td class="text-end pe-4"><span class="badge bg-secondary">Branch Ready</span></td>
+                    </tr>
+                    <tr>
+                        <td class="ps-4 fw-semibold text-dark">Tamilore Adekanye</td>
+                        <td>Customer Portal, Feedback Threads & Executive Reports</td>
+                        <td><code>feature/tamilore-customer-portal</code></td>
+                        <td class="text-end pe-4"><span class="badge bg-secondary">Branch Ready</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

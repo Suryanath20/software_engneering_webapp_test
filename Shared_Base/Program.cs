@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using ANDtr.Web.Common;
 using ANDtr.Web.Data;
 using ANDtr.Web.Models;
-using ANDtr.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,19 +45,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // 3. Identity configuration
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    // Password requirements
     options.Password.RequireDigit = true;
     options.Password.RequiredLength = 8;
     options.Password.RequireUppercase = true;
     options.Password.RequireLowercase = true;
     options.Password.RequireNonAlphanumeric = false;
 
-    // Lockout settings: lockout after 5 consecutive failures
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     options.Lockout.MaxFailedAccessAttempts = 5;
     options.Lockout.AllowedForNewUsers = true;
 
-    // User requirements
     options.User.RequireUniqueEmail = true;
 })
 .AddEntityFrameworkStores<AppDbContext>()
@@ -84,34 +80,16 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequireCustomerRole", policy => policy.RequireRole("Customer"));
 });
 
-// 5. Member Folders View Location Formats
+// 5. Razor View Engine Locations
 builder.Services.Configure<RazorViewEngineOptions>(options =>
 {
     options.ViewLocationFormats.Clear();
-
-    // Direct flat member folders
-    options.ViewLocationFormats.Add("/Suryanath_Sunil/{0}.cshtml");
-    options.ViewLocationFormats.Add("/Azlan_Ahmed/{0}.cshtml");
-    options.ViewLocationFormats.Add("/Hassan_Naveed/{0}.cshtml");
-    options.ViewLocationFormats.Add("/Sanjida_Afrin/{0}.cshtml");
-    options.ViewLocationFormats.Add("/Tamilore_Adekanye/{0}.cshtml");
-
-    // Shared layouts & views
+    options.ViewLocationFormats.Add("/Shared_Base/Views/{1}/{0}.cshtml");
     options.ViewLocationFormats.Add("/Shared_Base/Views/Shared/{0}.cshtml");
-    options.ViewLocationFormats.Add("/Shared_Base/Views/{0}.cshtml");
     options.ViewLocationFormats.Add("/Shared_Base/{0}.cshtml");
     options.ViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
     options.ViewLocationFormats.Add("/{0}.cshtml");
 });
-
-// 6. Dependency Injection Services
-builder.Services.AddScoped<IImportService, ImportService>();
-builder.Services.AddScoped<INoticeSearchService, NoticeSearchService>();
-builder.Services.AddScoped<IReviewService, ReviewService>();
-builder.Services.AddScoped<IShareService, ShareService>();
-builder.Services.AddScoped<ICommentService, CommentService>();
-builder.Services.AddScoped<ICustomerService, CustomerService>();
-builder.Services.AddScoped<IReportService, ReportService>();
 
 builder.Services.AddControllersWithViews(options =>
 {
@@ -120,7 +98,7 @@ builder.Services.AddControllersWithViews(options =>
 
 var app = builder.Build();
 
-// 7. Database Migration & Seeding
+// 6. Database Migration & Seeding
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -149,14 +127,14 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// 8. Pipeline configuration
+// 7. Pipeline configuration
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
 else
 {
-    app.UseExceptionHandler("/Accounts/AccessDenied");
+    app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
@@ -170,6 +148,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Dashboard}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
