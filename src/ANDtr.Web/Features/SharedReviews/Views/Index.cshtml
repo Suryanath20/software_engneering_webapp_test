@@ -1,0 +1,59 @@
+@model ANDtr.Web.Features.SharedReviews.SharedListViewModel
+@{
+    Layout = "_CustomerLayout";
+    ViewData["Title"] = "Shared with Me";
+}
+
+<div class="head">
+    <div>
+        <h1>Shared with Me</h1>
+        <p class="muted small">Reviews that ANDtr has shared with you.</p>
+    </div>
+</div>
+
+<form method="get" action="/SharedReviews" class="toolrow">
+    <input type="text" name="search" value="@Model.Search" placeholder="Search shared reviews..." aria-label="Search shared reviews" />
+</form>
+
+@if (Model.SharedReviews.Count == 0)
+{
+    <section class="panel gap">
+        <h2>Empty state (nothing shared yet)</h2>
+        <div class="empty">
+            <b>No reviews have been shared with you yet.</b>
+            <span class="muted small">When ANDtr shares a review, it will appear here.</span>
+        </div>
+    </section>
+}
+else
+{
+    <div class="tbl-wrap">
+        <table class="tbl">
+            <thead>
+                <tr>
+                    <th>Review title</th>
+                    <th>Shared by</th>
+                    <th>Date shared</th>
+                    <th>Notices</th>
+                    <th>Your comments</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model.SharedReviews)
+                {
+                    <tr>
+                        <td><b>@r.ReviewTitle</b></td>
+                        <td>@r.SharedByName</td>
+                        <td>@r.SharedAt.ToString("d MMM yyyy")</td>
+                        <td>@r.NoticeCount</td>
+                        <td>@r.CustomerCommentCount</td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" href="/SharedReviews/Details/@r.ReviewId">Open</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

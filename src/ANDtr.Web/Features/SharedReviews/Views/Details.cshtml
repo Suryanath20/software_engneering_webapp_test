@@ -1,0 +1,151 @@
+@model ANDtr.Web.Features.SharedReviews.SharedReviewViewModel
+@{
+    var isCustomer = User.IsInRole("Customer");
+    Layout = isCustomer ? "_CustomerLayout" : "_EmployeeLayout";
+    ViewData["Title"] = Model.Review.Title;
+}
+
+<p>
+    <a class="back" href="@(isCustomer ? "/SharedReviews" : "/Reviews")">
+        <svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to @(isCustomer ? "Shared with Me" : "My Risk Reviews")
+    </a>
+</p>
+
+<div class="head">
+    <div>
+        <h1>@Model.Review.Title</h1>
+        <p class="muted small">Prepared by: <b>@(Model.Review.CreatedBy?.FullName ?? "ANDtr Risk Team")</b> &bull; Last updated: @Model.Review.UpdatedAt.ToString("d MMM yyyy")</p>
+    </div>
+    <div class="head-act">
+        <a class="btn btn-outline" href="/Reports?reviewId=@Model.Review.Id" target="_blank">
+            <svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>
+            Print Report
+        </a>
+    </div>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.Review.Summary))
+{
+    <section class="panel">
+        <h2>Summary & Scope</h2>
+        <p>@Model.Review.Summary</p>
+    </section>
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.Review.FindingsHtml))
+{
+    <section class="panel panel-brand">
+        <h2 class="brand-t">Findings & Clinical Risk Assessment</h2>
+        <div class="findings-body" style="font-size: 13.5px; line-height: 1.6;">
+            @Html.Raw(Model.Review.FindingsHtml)
+        </div>
+    </section>
+}
+
+<!-- Notices Included in this Review -->
+<section class="panel">
+    <h2>Associated Safety & Recall Notices (@Model.Review.ReviewNotices.Count)</h2>
+    <div class="tbl-wrap">
+        <table class="tbl">
+            <thead>
+                <tr>
+                    <th>Recall number</th>
+                    <th>Product</th>
+                    <th>Firm</th>
+                    <th>Class</th>
+                    <th>Classified</th>
+                    <th>Analysis / Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var rn in Model.Review.ReviewNotices)
+                {
+                    <tr>
+                        <td class="mono">
+                            @if (!isCustomer)
+                            {
+                                <a href="/Notices/Details/@rn.NoticeId">@rn.Notice.RecallNumber</a>
+                            }
+                            else
+                            {
+                                <b>@rn.Notice.RecallNumber</b>
+                            }
+                        </td>
+                        <td>
+                            <b>@(string.IsNullOrEmpty(rn.Notice.TradeName) ? rn.Notice.ProductCodeName : rn.Notice.TradeName)</b>
+                        </td>
+                        <td>@rn.Notice.FirmName</td>
+                        <td>
+                            @if (rn.Notice.RecallClass == "1")
+                            {
+                                <span class="badge b-red">Class I</span>
+                            }
+                            else if (rn.Notice.RecallClass == "2")
+                            {
+                                <span class="badge b-amber">Class II</span>
+                            }
+                            else
+                            {
+                                <span class="badge b-green">Class III</span>
+                            }
+                        </td>
+                        <td>@rn.Notice.ClassificationDate.ToString("d MMM yyyy")</td>
+                        <td>@(string.IsNullOrEmpty(rn.EmployeeNote) ? rn.Notice.RecallReason : rn.EmployeeNote)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Discussion & Comments Thread -->
+<section class="panel">
+    <h2>Discussion & Questions (@Model.Comments.Count)</h2>
+    @if (Model.Comments.Count == 0)
+    {
+        <p class="muted small">No comments recorded yet on this shared review.</p>
+    }
+    else
+    {
+        @foreach (var c in Model.Comments)
+        {
+            var isEmp = c.AuthorRole == "Employee";
+            var init = !string.IsNullOrEmpty(c.AuthorName) ? c.AuthorName.Substring(0, 1).ToUpper() : "U";
+            <div class="cmt">
+                <div class="av @(isEmp ? "av-r" : "av-b")">@init</div>
+                <div class="grow">
+                    <div class="meta">
+                        <b>@c.AuthorName</b>
+                        @if (isEmp)
+                        {
+                            <span class="badge b-brand">Employee</span>
+                        }
+                        else
+                        {
+                            <span class="badge b-grey">Customer</span>
+                            @if (!string.IsNullOrEmpty(c.AuthorCompany))
+                            {
+                                <small class="muted">(@c.AuthorCompany)</small>
+                            }
+                        }
+                        <span class="muted small">@c.CreatedAt.ToString("d MMM yyyy, HH:mm")</span>
+                    </div>
+                    <p>@c.Body</p>
+                </div>
+            </div>
+        }
+    }
+
+    <hr />
+
+    <!-- Add Comment Form -->
+    <h3>Add a Comment or Question</h3>
+    <form asp-controller="SharedReviews" asp-action="AddComment" method="post">
+        <input type="hidden" name="reviewId" value="@Model.Review.Id" />
+        <textarea name="body" rows="3" placeholder="Write your comment, question, or clarification request..." required></textarea>
+        <div class="actions">
+            <button class="btn btn-primary" type="submit">Post Comment</button>
+        </div>
+    </form>
+</section>
