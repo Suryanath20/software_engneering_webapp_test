@@ -84,12 +84,34 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequireCustomerRole", policy => policy.RequireRole("Customer"));
 });
 
-// 5. Custom Feature Folders View Location Formats
+// 5. Custom Feature Folders View Location Formats (per-team-member organization)
 builder.Services.Configure<RazorViewEngineOptions>(options =>
 {
     options.ViewLocationFormats.Clear();
-    options.ViewLocationFormats.Add("/Features/{1}/Views/{0}.cshtml");
+
+    // Member 1: Suryanath Sunil (Accounts, Dashboard, Sharing)
+    options.ViewLocationFormats.Add("/Features/Suryanath_Sunil/{1}/{0}.cshtml");
+    options.ViewLocationFormats.Add("/Features/Suryanath_Sunil/{1}/Views/{0}.cshtml");
+
+    // Member 2: Azlan Ahmed (Import, Search)
+    options.ViewLocationFormats.Add("/Features/Azlan_Ahmed/{1}/{0}.cshtml");
+    options.ViewLocationFormats.Add("/Features/Azlan_Ahmed/{1}/Views/{0}.cshtml");
+
+    // Member 3: Hassan Naveed (Filters, Reviews)
+    options.ViewLocationFormats.Add("/Features/Hassan_Naveed/{1}/{0}.cshtml");
+    options.ViewLocationFormats.Add("/Features/Hassan_Naveed/{1}/Views/{0}.cshtml");
+
+    // Member 4: Sanjida Afrin (Findings, SharedReviews)
+    options.ViewLocationFormats.Add("/Features/Sanjida_Afrin/{1}/{0}.cshtml");
+    options.ViewLocationFormats.Add("/Features/Sanjida_Afrin/{1}/Views/{0}.cshtml");
+
+    // Member 5: Tamilore Adekanye (Customers, Notices, Reports)
+    options.ViewLocationFormats.Add("/Features/Tamilore_Adekanye/{1}/{0}.cshtml");
+    options.ViewLocationFormats.Add("/Features/Tamilore_Adekanye/{1}/Views/{0}.cshtml");
+
+    // Shared & generic fallbacks
     options.ViewLocationFormats.Add("/Features/{1}/{0}.cshtml");
+    options.ViewLocationFormats.Add("/Features/{1}/Views/{0}.cshtml");
     options.ViewLocationFormats.Add("/Views/{1}/{0}.cshtml");
     options.ViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
 });
