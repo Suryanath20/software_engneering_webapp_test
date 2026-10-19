@@ -1,0 +1,97 @@
+@model ANDtr.Web.Features.Reviews.ReviewsListViewModel
+@{
+    Layout = "_EmployeeLayout";
+    ViewData["Title"] = "My Risk Reviews";
+}
+
+<div class="head">
+    <div>
+        <h1>My Risk Reviews</h1>
+        <p class="muted small">Reopen a saved review for future reference.</p>
+    </div>
+    <div class="head-act">
+        <a class="btn btn-primary" href="/Reviews/Create">
+            <svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            Create Review
+        </a>
+    </div>
+</div>
+
+<form method="get" action="/Reviews" class="toolrow">
+    <input type="text" name="search" value="@Model.Search" placeholder="Search my reviews..." aria-label="Search my reviews" />
+    <select name="sharingFilter" onchange="this.form.submit();" aria-label="Sharing filter">
+        <option value="All reviews" selected="@(Model.SharingFilter == "All reviews")">All reviews</option>
+        <option value="Shared" selected="@(Model.SharingFilter == "Shared")">Shared</option>
+        <option value="Not shared" selected="@(Model.SharingFilter == "Not shared")">Not shared</option>
+    </select>
+</form>
+
+@if (Model.Reviews.Count == 0)
+{
+    <section class="panel gap">
+        <h2>Empty state (new account)</h2>
+        <div class="empty">
+            <b>You have no saved reviews yet.</b>
+            <span class="muted small">Search the notices and create your first risk review.</span>
+            <a class="btn btn-primary btn-sm" href="/Search">Search Notices</a>
+        </div>
+    </section>
+}
+else
+{
+    <div class="tbl-wrap">
+        <table class="tbl">
+            <thead>
+                <tr>
+                    <th>Review title</th>
+                    <th>Notices</th>
+                    <th>Created</th>
+                    <th>Last updated</th>
+                    <th>Sharing</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var review in Model.Reviews)
+                {
+                    <tr>
+                        <td><b>@review.Title</b></td>
+                        <td>@review.NoticeCount</td>
+                        <td>@review.CreatedAt.ToString("d MMM yyyy")</td>
+                        <td>@review.UpdatedAt.ToString("d MMM yyyy")</td>
+                        <td>
+                            @if (review.IsShared)
+                            {
+                                <span class="badge b-green">Shared with @review.ShareCount</span>
+                            }
+                            else
+                            {
+                                <span class="badge b-grey">Not shared</span>
+                            }
+                        </td>
+                        <td class="nowrap">
+                            <a class="btn btn-primary btn-sm" href="/Findings?reviewId=@review.Id">Open</a>
+                            <a class="btn btn-outline btn-sm" href="/Reviews/Edit/@review.Id">Edit</a>
+                            <button class="btn btn-danger btn-sm" type="button" data-open="deleteModal-@review.Id">Delete</button>
+
+                            <!-- Delete Confirmation Modal -->
+                            <div class="modal-overlay" id="deleteModal-@review.Id" hidden>
+                                <div class="modal-box">
+                                    <h2 style="color: var(--bad); margin-bottom: 8px;">Confirm Deletion</h2>
+                                    <p>Are you sure you want to permanently delete the risk review <b>"@review.Title"</b>?</p>
+                                    <p class="small muted">This will remove all associated findings and shares. Notices in the FDA dataset will not be affected.</p>
+                                    <div class="actions right" style="margin-top: 20px;">
+                                        <button class="btn btn-outline btn-sm" type="button" data-close>Cancel</button>
+                                        <form asp-controller="Reviews" asp-action="Delete" asp-route-id="@review.Id" method="post" style="display:inline;">
+                                            <button class="btn btn-danger btn-sm" type="submit">Delete Review</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
