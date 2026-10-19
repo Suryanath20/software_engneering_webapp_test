@@ -8,7 +8,7 @@
 
 ---
 
-## 📋 Table of Contents
+##  Table of Contents
 1. [Platform Overview](#platform-overview)
 2. [Team Contributions & Feature Ownership](#team-contributions--feature-ownership)
 3. [Architecture & Key Technologies](#architecture--key-technologies)
@@ -20,7 +20,7 @@
 
 ---
 
-## 🏥 Platform Overview
+##  Platform Overview
 **ANDtr** serves regulatory compliance officers, clinical safety engineers, hospital procurement teams, and healthcare executives by turning high-volume FDA medical device recall notices into actionable, auditable risk assessments. 
 
 Key capabilities include:
@@ -34,7 +34,7 @@ Key capabilities include:
 
 ---
 
-## 👥 Team Contributions & Feature Ownership
+##  Team Contributions & Feature Ownership
 
 The platform implements all user journeys and wireframe specifications across 5 team modules:
 
@@ -48,7 +48,7 @@ The platform implements all user journeys and wireframe specifications across 5 
 
 ---
 
-## ⚙️ Architecture & Key Technologies
+##  Architecture & Key Technologies
 
 - **Runtime & Framework:** ASP.NET Core 8.0 MVC (C# 12)
 - **Data Persistence:** Entity Framework Core 8 with Pomelo MySQL 8 Provider (`8.0.2`), including transparent in-memory fallback for local environments without Docker.
@@ -60,7 +60,7 @@ The platform implements all user journeys and wireframe specifications across 5 
 
 ---
 
-## 🚀 6-Step Quickstart Guide
+##  6-Step Quickstart Guide
 
 ### 1. Prerequisites
 - [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) or later
@@ -105,7 +105,7 @@ dotnet test
 
 ---
 
-## 🌿 Branching & Git Workflow
+##  Branching & Git Workflow
 
 All development follows trunk-based feature branching:
 ```bash
@@ -120,7 +120,7 @@ git checkout -b feature/tamilore-customer-portal
 
 ---
 
-## 🧪 Running Automated Tests
+##  Running Automated Tests
 
 Run the full xUnit test suite covering search, import, review CRUD, sharing security, and comment threads:
 ```bash
@@ -129,7 +129,7 @@ dotnet test tests/ANDtr.Tests/ANDtr.Tests.csproj --logger "console;verbosity=det
 
 ---
 
-## 📚 Documentation Links
+##  Documentation Links
 - [Architecture & Design Guide](docs/ARCHITECTURE.md)
 - [Database ER Diagram & Schema](docs/ER_DIAGRAM.md)
 - [Comprehensive Test Plan (20+ Cases)](docs/TEST_PLAN.md)
