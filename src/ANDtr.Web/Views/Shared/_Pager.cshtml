@@ -1,0 +1,58 @@
+@model (int PageNumber, int TotalPages, int TotalCount, int PageSize, string BaseUrl)
+
+@{
+    var startItem = Model.TotalCount == 0 ? 0 : ((Model.PageNumber - 1) * Model.PageSize) + 1;
+    var endItem = Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount);
+
+    string BuildUrl(int page)
+    {
+        var sep = Model.BaseUrl.Contains('?') ? "&" : "?";
+        return $"{Model.BaseUrl}{sep}page={page}&pageSize={Model.PageSize}";
+    }
+}
+
+@if (Model.TotalCount > 0)
+{
+    <div class="pager" aria-label="Pagination">
+        <span>Showing @startItem-@endItem of @Model.TotalCount notices. @Model.PageSize per page.</span>
+        <div class="pages">
+            @if (Model.PageNumber > 1)
+            {
+                <a href="@BuildUrl(Model.PageNumber - 1)" aria-label="Previous Page">Previous</a>
+            }
+            else
+            {
+                <span class="dis" aria-disabled="true">Previous</span>
+            }
+
+            @for (int p = 1; p <= Model.TotalPages; p++)
+            {
+                if (p == Model.PageNumber)
+                {
+                    <span class="cur" aria-current="page">@p</span>
+                }
+                else if (p <= 3 || p > Model.TotalPages - 2 || Math.Abs(p - Model.PageNumber) <= 1)
+                {
+                    <a href="@BuildUrl(p)">@p</a>
+                }
+                else if (p == 4 && Model.PageNumber > 4)
+                {
+                    <span>...</span>
+                }
+                else if (p == Model.TotalPages - 2 && Model.PageNumber < Model.TotalPages - 3)
+                {
+                    <span>...</span>
+                }
+            }
+
+            @if (Model.PageNumber < Model.TotalPages)
+            {
+                <a href="@BuildUrl(Model.PageNumber + 1)" aria-label="Next Page">Next</a>
+            }
+            else
+            {
+                <span class="dis" aria-disabled="true">Next</span>
+            }
+        </div>
+    </div>
+}

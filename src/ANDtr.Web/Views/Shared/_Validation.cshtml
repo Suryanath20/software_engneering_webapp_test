@@ -1,0 +1,32 @@
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-ok" role="alert">
+        @TempData["Success"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-bad" role="alert">
+        @TempData["Error"]
+    </div>
+}
+
+@if (TempData["Warning"] != null)
+{
+    <div class="alert alert-warn" role="alert">
+        @TempData["Warning"]
+    </div>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-bad" role="alert">
+        <ul class="plain m-0">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}

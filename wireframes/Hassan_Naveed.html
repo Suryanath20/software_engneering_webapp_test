@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hassan Naveed wireframes | ANDtr Medical Device Safety and Recall Platform</title>
+<style>
+:root {
+  --brand: #c8102e;
+  --brand-d: #a50d26;
+  --brand-s: #fdecef;
+  --ink: #23272e;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --bg: #f7f7f8;
+  --ok: #1e7e34;
+  --ok-s: #e6f4ea;
+  --warn: #a15c07;
+  --warn-s: #fdf0d5;
+  --bad: #b42318;
+  --bad-s: #fde8e8;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: Inter, "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  font-size: 14px;
+  line-height: 1.45;
+}
+[hidden] { display: none !important; }
+a { color: var(--brand); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1 { font-size: 26px; font-weight: 500; margin: 0 0 4px; color: #2a2a2a; }
+h2 { font-size: 16px; font-weight: 600; margin: 0 0 12px; }
+h3 { font-size: 13.5px; font-weight: 600; margin: 0 0 6px; }
+p { margin: 0 0 12px; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 20px 0 14px; }
+.muted { color: var(--muted); }
+.small { font-size: 12.5px; }
+.xs { font-size: 11.5px; }
+.center { text-align: center; }
+.right { text-align: right; }
+.gap { margin-top: 20px; }
+.grow { flex: 1; min-width: 0; }
+.nowrap { white-space: nowrap; }
+.ic { width: 18px; height: 18px; flex: none; }
+.ic.sm { width: 15px; height: 15px; }
+.ic.lg { width: 30px; height: 30px; }
+
+/* Wireframe label strip (not part of the app) */
+.strip {
+  height: 42px;
+  background: #1f2328;
+  color: #d1d5db;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 20px;
+  font-size: 12.5px;
+}
+.strip b { color: #fff; font-weight: 600; }
+.strip .sp { flex: 1; }
+.strip a {
+  color: #fff;
+  border: 1px solid #4b5563;
+  border-radius: 4px;
+  padding: 4px 12px;
+  font-size: 12px;
+}
+.strip a:hover { background: #374151; text-decoration: none; }
+.strip a.off { opacity: 0.35; pointer-events: none; }
+
+/* App shell */
+.app { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 42px); }
+.side {
+  background: #fff;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: calc(100vh - 42px);
+}
+.brandbar { height: 66px; display: flex; align-items: center; gap: 10px; padding: 0 20px; border-bottom: 1px solid var(--line); }
+.brandbar b { color: var(--brand); font-size: 24px; font-weight: 600; letter-spacing: -0.3px; }
+.brandbar span { font-size: 10.5px; color: var(--muted); line-height: 1.2; }
+.nav { padding: 14px 8px; flex: 1; overflow-y: auto; }
+.nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  margin-bottom: 2px;
+  border-radius: 5px;
+  color: #3a3f47;
+  font-size: 13px;
+}
+.nav a svg { width: 16px; height: 16px; color: #7a808a; }
+.nav a:hover { background: #f3f4f6; text-decoration: none; }
+.nav a.on { background: var(--brand); color: #fff; font-weight: 600; }
+.nav a.on svg { color: #fff; }
+.userbox { border-top: 1px solid var(--line); padding: 16px; }
+.who { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; }
+.avatar {
+  width: 34px; height: 34px; border-radius: 50%; background: var(--brand); color: #fff;
+  font-size: 11.5px; font-weight: 600; display: grid; place-items: center; flex: none;
+}
+.who b { display: block; font-size: 12.5px; }
+.who small { color: var(--muted); font-size: 11px; }
+.main { min-width: 0; }
+.top {
+  height: 66px; background: #fff; border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 14px; padding: 0 32px;
+}
+.search {
+  flex: 0 1 460px; display: flex; align-items: center; gap: 8px;
+  border: 1px solid var(--line); border-radius: 4px; padding: 0 12px; background: #fafafa; height: 36px; color: var(--muted);
+}
+.search input[type="text"] { border: 0; background: transparent; outline: 0; flex: 1; padding: 0; font: inherit; font-size: 13px; color: var(--ink); }
+.search input[type="text"]:focus { outline: 0; border: 0; }
+.search:focus-within { border-color: var(--brand); }
+.aside-kv th { width: 96px; }
+.portal { font-weight: 600; font-size: 14px; }
+.portal span { font-weight: 400; color: var(--muted); margin-left: 8px; }
+.bell {
+  position: relative; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line);
+  background: #fff; display: grid; place-items: center; cursor: pointer; color: #b7791f; margin-left: auto;
+}
+.bell i {
+  position: absolute; top: -4px; right: -4px; min-width: 16px; height: 16px; border-radius: 8px;
+  background: var(--brand); color: #fff; font-size: 10px; font-style: normal; display: grid; place-items: center; padding: 0 4px;
+}
+.content { padding: 28px 32px 56px; max-width: 1240px; }
+.head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 20px; }
+.head .muted { margin: 0; }
+.head-act { flex: none; }
+.back { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+
+/* Cards and panels */
+.panel { background: #fff; border: 1px solid var(--line); border-radius: 4px; padding: 22px; margin-bottom: 20px; }
+.panel-brand { border-color: var(--brand); }
+.brand-t { color: var(--brand); }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 0 0 20px; }
+.stats.three { grid-template-columns: repeat(3, 1fr); }
+.stat { background: #fff; border: 1px solid var(--line); border-radius: 4px; padding: 20px; }
+.sq {
+  width: 38px; height: 38px; border-radius: 6px; background: var(--brand-s); color: var(--brand);
+  display: grid; place-items: center; margin-bottom: 14px;
+}
+.sq.big { width: 48px; height: 48px; margin: 0 auto 12px; }
+.stat b { display: block; font-size: 26px; font-weight: 500; line-height: 1.2; }
+.stat span { font-size: 11.5px; color: var(--muted); }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+.cols { display: grid; grid-template-columns: 1fr 330px; gap: 20px; align-items: start; }
+.cols-f { display: grid; grid-template-columns: 260px 1fr; gap: 20px; align-items: start; }
+.cols-r { display: grid; grid-template-columns: 260px 1fr; gap: 20px; align-items: start; }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 16px 0 20px; }
+.step { border: 1px solid var(--line); border-radius: 4px; padding: 16px; background: #fafafa; color: inherit; display: block; }
+.step:hover { border-color: var(--brand); text-decoration: none; }
+.step p { margin: 0; }
+.step .n {
+  width: 24px; height: 24px; border-radius: 50%; background: var(--brand); color: #fff;
+  font-size: 12px; font-weight: 600; display: grid; place-items: center; margin-bottom: 10px;
+}
+.list { list-style: none; margin: 0; padding: 0; }
+.list li { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid #eef0f2; }
+.list li:last-child { border: 0; }
+.list .dot { width: 30px; height: 30px; border-radius: 6px; background: var(--brand-s); color: var(--brand); display: grid; place-items: center; flex: none; }
+.list small { color: var(--muted); font-size: 11.5px; display: block; }
+.qa a { display: flex; align-items: center; gap: 12px; padding: 13px 4px; border-bottom: 1px solid #eef0f2; color: var(--ink); }
+.qa a:last-child { border: 0; }
+.qa a:hover { background: #fafafa; text-decoration: none; }
+.qa .chev { margin-left: auto; color: #9aa0a8; }
+.plain { margin: 0; padding-left: 18px; font-size: 13px; }
+.plain li { margin-bottom: 6px; }
+
+/* Forms */
+label { display: block; font-weight: 600; font-size: 12.5px; margin: 14px 0 6px; }
+label:first-child { margin-top: 0; }
+input[type="text"], input[type="email"], input[type="password"], input[type="date"], select, textarea {
+  width: 100%; border: 1px solid #d5d8dd; border-radius: 4px; padding: 9px 12px;
+  font: inherit; font-size: 13.5px; background: #fff; color: var(--ink);
+}
+input:disabled { background: #f3f4f6; color: var(--muted); }
+textarea { resize: vertical; }
+input:focus, select:focus, textarea:focus, .ed:focus { outline: 2px solid rgba(200, 16, 46, 0.25); border-color: var(--brand); }
+.hint { font-size: 12px; color: var(--muted); margin: 4px 0 0; }
+.err-t { font-size: 12px; color: var(--bad); margin: 4px 0 0; }
+.req { color: var(--brand); }
+.check { display: flex; align-items: flex-start; gap: 8px; font-weight: 400; margin: 8px 0; font-size: 13px; }
+.check input { width: auto; margin-top: 3px; accent-color: var(--brand); }
+.searchrow { display: flex; gap: 12px; margin-bottom: 18px; }
+.searchrow input { flex: 1; }
+.toolrow { display: flex; gap: 12px; margin-bottom: 14px; max-width: 560px; }
+.opts { gap: 28px; }
+.actions { display: flex; gap: 12px; margin-top: 22px; flex-wrap: wrap; }
+.actions.col { flex-direction: column; gap: 8px; }
+.actions.c { justify-content: center; }
+.actions.r { justify-content: flex-end; }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  border: 1px solid transparent; border-radius: 4px; padding: 9px 16px;
+  font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; background: #fff; color: var(--ink);
+}
+.btn:hover { text-decoration: none; }
+.btn-primary { background: var(--brand); color: #fff; }
+.btn-primary:hover { background: var(--brand-d); }
+.btn-outline { border-color: #d5d8dd; background: #fff; color: var(--ink); }
+.btn-outline:hover { background: #f3f4f6; }
+.btn-danger { border-color: #f0b4ae; color: var(--bad); background: #fff; }
+.btn-danger:hover { background: var(--bad-s); }
+.btn-sm { padding: 5px 12px; font-size: 12px; }
+.btn-block { display: flex; width: 100%; }
+.btn[disabled] { opacity: 0.5; cursor: default; }
+
+/* Tables */
+.tbl-wrap { background: #fff; border: 1px solid var(--line); border-radius: 4px; overflow-x: auto; }
+.tbl { width: 100%; border-collapse: collapse; font-size: 13px; background: #fff; }
+.tbl th { font-size: 12px; font-weight: 600; text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); background: #fafafa; color: #333; white-space: nowrap; }
+.tbl td { padding: 13px 14px; border-bottom: 1px solid #eef0f2; vertical-align: top; }
+.tbl tr:last-child td { border-bottom: 0; }
+.tbl td small { display: block; color: var(--muted); font-size: 11.5px; margin-top: 2px; }
+.tbl .reason { min-width: 240px; color: #374151; }
+.mono { font-family: ui-monospace, Consolas, "SF Mono", monospace; font-size: 12px; white-space: nowrap; }
+.tbl input[type="checkbox"] { accent-color: var(--brand); }
+.kv { width: 100%; border-collapse: collapse; }
+.kv th { width: 190px; text-align: left; font-weight: 500; color: var(--muted); border-bottom: 1px solid #eef0f2; padding: 11px 0; font-size: 13px; vertical-align: top; }
+.kv td { padding: 11px 0; border-bottom: 1px solid #eef0f2; font-weight: 600; font-size: 13px; }
+.kv tr:last-child th, .kv tr:last-child td { border-bottom: 0; }
+.aside-kv th { width: 100px; }
+.na { color: #9aa0a8; font-weight: 400; }
+mark { background: #fde2e6; color: #7a0a1e; padding: 0 2px; border-radius: 2px; }
+
+/* Badges and chips */
+.badge { display: inline-block; font-size: 11.5px; font-weight: 600; padding: 2px 9px; border-radius: 3px; border: 1px solid transparent; white-space: nowrap; }
+.b-red { background: var(--bad-s); color: var(--bad); }
+.b-amber { background: var(--warn-s); color: var(--warn); }
+.b-green { background: var(--ok-s); color: var(--ok); }
+.b-grey { background: #eef0f2; color: #4b5563; }
+.b-brand { background: #fff; border-color: var(--brand); color: var(--brand); }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.chip { background: #fff; border: 1px solid #d5d8dd; border-radius: 14px; padding: 3px 12px; font-size: 12px; color: var(--ink); }
+.chip.on { background: var(--brand); border-color: var(--brand); color: #fff; }
+a.chip:hover { border-color: var(--brand); text-decoration: none; }
+.alert { padding: 10px 12px; border-radius: 4px; font-size: 13px; margin: 12px 0; }
+.alert-error { background: var(--bad-s); color: var(--bad); border: 1px solid #f4c0bb; }
+.alert-ok { background: var(--ok-s); color: var(--ok); border: 1px solid #bfe0c8; }
+.alert-info { background: #f3f4f6; color: #374151; border: 1px solid var(--line); margin-top: 16px; }
+
+/* Selection, pager */
+.selbar { display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid var(--brand); border-radius: 4px; padding: 10px 14px; margin-bottom: 12px; font-size: 13px; }
+.selbar b { color: var(--brand); font-size: 16px; }
+.selbar .sp { flex: 1; }
+.pager { display: flex; justify-content: space-between; align-items: center; padding: 14px 2px; font-size: 12.5px; color: var(--muted); gap: 12px; flex-wrap: wrap; }
+.pages { display: flex; gap: 6px; }
+.pages a, .pages span {
+  min-width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--line);
+  border-radius: 4px; background: #fff; color: var(--ink); font-size: 12.5px; padding: 0 10px;
+}
+.pages .cur { background: var(--brand); color: #fff; border-color: var(--brand); }
+.pages .dis { color: #b4b9c0; }
+.pages a:hover { border-color: var(--brand); text-decoration: none; }
+.filt label:first-of-type { margin-top: 14px; }
+
+/* Misc blocks */
+.drop { border: 1.5px dashed #c9ced6; border-radius: 6px; padding: 28px; text-align: center; background: #fafafa; margin-bottom: 8px; }
+.drop p { margin-bottom: 12px; }
+.empty { border: 1px dashed #c9ced6; border-radius: 4px; padding: 22px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; background: #fafafa; }
+.danger-zone { border-color: #f0b4ae; }
+.nlist { list-style: none; padding: 0; margin: 0; }
+.nlist li { padding: 10px 12px; border: 1px solid var(--line); border-radius: 4px; margin-bottom: 8px; font-size: 13px; }
+.nlist li.cur { border-color: var(--brand); background: var(--brand-s); }
+.nlist small { display: block; color: var(--muted); font-size: 11.5px; }
+.denied { max-width: 460px; margin: 70px auto; text-align: center; }
+.lockc { width: 64px; height: 64px; border-radius: 50%; background: var(--brand-s); color: var(--brand); display: grid; place-items: center; margin: 0 auto 18px; }
+
+/* Editor and comments */
+.editor { border: 1px solid #d5d8dd; border-radius: 4px; background: #fff; }
+.tb { display: flex; gap: 2px; padding: 6px; border-bottom: 1px solid var(--line); background: #fafafa; }
+.tb button { min-width: 30px; height: 28px; border: 1px solid transparent; border-radius: 3px; background: none; cursor: pointer; font: inherit; font-size: 13px; }
+.tb button:hover { background: #eceef1; }
+.ed { min-height: 110px; padding: 12px; font-size: 13.5px; outline: 0; }
+.ed:empty::before { content: attr(data-ph); color: #9aa0a8; }
+.cmt { display: flex; gap: 12px; padding: 16px 0; border-bottom: 1px solid #eef0f2; }
+.cmt:last-of-type { border-bottom: 0; }
+.cmt p { margin: 4px 0 0; font-size: 13.5px; }
+.cmt .meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 12px; }
+.cmt .meta b { font-size: 13px; }
+.cmt .acts { display: flex; gap: 14px; font-size: 12px; margin-top: 6px; }
+.av { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-size: 11.5px; font-weight: 600; flex: none; }
+.av-b { background: #2563eb; }
+.av-r { background: var(--brand); }
+
+/* Login */
+.auth { min-height: calc(100vh - 42px); display: grid; place-items: center; padding: 32px 16px; background: #fff; }
+.auth-card { width: 100%; max-width: 400px; border: 1px solid var(--line); border-radius: 4px; padding: 40px; background: #fff; }
+.auth-brand { text-align: center; color: var(--brand); font-size: 34px; font-weight: 600; letter-spacing: -0.5px; }
+.auth-sub { text-align: center; color: #6b6258; font-size: 12.5px; margin: 2px 0 30px; }
+.auth-h { text-align: center; font-size: 21px; margin-bottom: 18px; }
+.auth-card .right { margin: 8px 0 18px; }
+
+/* Report paper */
+.paper { background: #fff; border: 1px solid var(--line); padding: 38px 42px; max-width: 780px; font-size: 12.5px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06); }
+.paper .ph { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid var(--brand); padding-bottom: 10px; margin-bottom: 20px; }
+.paper .pb { color: var(--brand); font-size: 22px; }
+.paper h2 { font-size: 18px; margin-bottom: 2px; }
+.paper h3 { margin-top: 16px; }
+.paper .tbl { border: 1px solid var(--line); }
+.paper .pf { margin-top: 28px; padding-top: 10px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
+
+/* Modal */
+.modal { position: fixed; inset: 0; background: rgba(20, 22, 26, 0.45); display: grid; place-items: center; z-index: 50; }
+.modal-box { background: #fff; border-radius: 6px; padding: 26px; width: min(460px, 92vw); }
+
+@media (max-width: 980px) {
+  .app { grid-template-columns: 1fr; }
+  .side { position: static; height: auto; }
+  .nav { display: flex; flex-wrap: wrap; }
+  .stats, .steps { grid-template-columns: 1fr 1fr; }
+  .two, .cols, .cols-f, .cols-r { grid-template-columns: 1fr; }
+  .content { padding: 20px 16px 40px; }
+  .top { padding: 0 16px; }
+}
+
+@media print {
+  .strip, .side, .top, .head, .controls, .modal { display: none !important; }
+  body { background: #fff; }
+  .app, .cols-r { display: block; }
+  .content { padding: 0; max-width: none; }
+  .paper { border: 0; box-shadow: none; padding: 0; max-width: none; }
+}
+
+</style>
+</head>
+<body>
+<div class="strip"><b>Hassan Naveed</b><span id="stripTitle"></span><span class="sp"></span><a id="prevPg" href="#">Previous</a><a id="nextPg" href="#">Next</a></div>
+<section class="page" id="filters" data-title="Filtered results and paging" hidden><div class="app">
+<aside class="side">
+  <div class="brandbar"><b>ANDtr</b><span>Device Safety<br>Platform</span></div>
+  <nav class="nav" aria-label="Main menu"><a href="Suryanath_Sunil.html#dashboard" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg><span>Dashboard</span></a><a href="Azlan_Ahmed.html#search" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span>Search Notices</span></a><a href="#reviews" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h8"/></svg><span>My Risk Reviews</span></a><a href="#create" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Create Review</span></a><a href="Suryanath_Sunil.html#share" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg><span>Sharing</span></a><a href="Tamilore_Adekanye.html#customers" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2 21v-1a7 7 0 0 1 14 0v1"/><circle cx="17.5" cy="9" r="2.5"/><path d="M18 14a5 5 0 0 1 4 5v2"/></svg><span>Customers</span></a><a href="Tamilore_Adekanye.html#report" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 20v-7M12 20V6M17 20v-10"/></svg><span>Reports</span></a><a href="Azlan_Ahmed.html#import" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg><span>Data Import</span></a></nav>
+  <div class="userbox">
+    <div class="who"><div class="avatar">HN</div><div><b>Hassan Naveed</b><small>Employee</small></div></div>
+    <a class="btn btn-outline btn-block" href="Suryanath_Sunil.html#login">Sign Out</a>
+  </div>
+</aside>
+<div class="main">
+  <header class="top"><div class="search"><svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><input type="text" placeholder="Search notices, firms, recall numbers..." aria-label="Search"></div><button class="bell" type="button" aria-label="Notifications"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 9h18c0-1-3-2-3-9M10 21a2 2 0 0 0 4 0"/></svg><i>2</i></button></header>
+  <main class="content"><div class="head"><div><h1>Search Results</h1><p class="muted small">Keyword "leak" with filters applied.</p></div></div>
+<div class="cols-f">
+  <aside class="panel filt">
+    <h2>Filters</h2>
+    <h3>Recall class</h3>
+    <label class="check"><input type="checkbox" checked> Class I <span class="muted">(175)</span></label>
+    <label class="check"><input type="checkbox"> Class II <span class="muted">(429)</span></label>
+    <label class="check"><input type="checkbox"> Class III <span class="muted">(12)</span></label>
+    <label for="fFirm">Firm</label>
+    <select id="fFirm"><option>All firms (90)</option></select>
+    <label for="fCode">Product code</label>
+    <select id="fCode"><option>All product codes (12)</option></select>
+    <label for="fFrom">Classified from</label>
+    <input id="fFrom" type="date">
+    <label for="fTo">Classified to</label>
+    <input id="fTo" type="date">
+    <p class="err-t" hidden>The "from" date must be before the "to" date.</p>
+    <div class="actions col"><button class="btn btn-primary btn-block" type="button">Apply Filters</button><button class="btn btn-outline btn-block" type="button">Clear Filters</button></div>
+  </aside>
+  <div>
+    <div class="chips"><span class="chip">Keyword: leak</span><span class="chip">Class I</span></div>
+    <div class="selbar"><b id="selCount">3</b><span>notices selected</span><span class="sp"></span><a class="btn btn-primary btn-sm" href="#create">Add to Risk Review</a><button class="btn btn-outline btn-sm js-clearsel" type="button">Clear Selection</button></div>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th><input id="selAll" type="checkbox" aria-label="Select all on this page"></th><th>Recall number</th><th>Product</th><th>Firm</th><th>Class</th><th>Classified</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody><tr><td><input class="sel" type="checkbox" aria-label="Select Z-1706-2015" checked></td><td class="mono">Z-1706-2015</td><td><b>Flow-i Anesthesia System</b><small>GAS-MACHINE, ANESTHESIA</small></td><td>Maquet Cardiovascular Us Sales, Llc</td><td><span class="badge b-red">Class I</span></td><td>8 Jun 2015</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-0290-2013" checked></td><td class="mono">Z-0290-2013</td><td><b>A3/A5 Anesthesia Delivery System</b><small>GAS-MACHINE, ANESTHESIA</small></td><td>Mindray DS USA, Inc. d.b.a. Mindray North America</td><td><span class="badge b-red">Class I</span></td><td>16 Nov 2012</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-0291-2013" checked></td><td class="mono">Z-0291-2013</td><td><b>A3/A5 Anesthesia Delivery System</b><small>GAS-MACHINE, ANESTHESIA</small></td><td>Mindray DS USA, Inc. d.b.a. Mindray North America</td><td><span class="badge b-red">Class I</span></td><td>16 Nov 2012</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-2078-2010"></td><td class="mono">Z-2078-2010</td><td><b>Cook Medical Ciaglia Blue Dolphin</b><small>JUBE TRACHEOSTOMY AND TUBE CUFF</small></td><td>Cook, Inc.</td><td><span class="badge b-red">Class I</span></td><td>26 Jul 2010</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-2084-2010"></td><td class="mono">Z-2084-2010</td><td><b>Cook Medical Ciaglia Blue Dolphin</b><small>JUBE TRACHEOSTOMY AND TUBE CUFF</small></td><td>Cook, Inc.</td><td><span class="badge b-red">Class I</span></td><td>26 Jul 2010</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-2082-2010"></td><td class="mono">Z-2082-2010</td><td><b>Cook Medical Ciaglia Blue Dolphin</b><small>JUBE TRACHEOSTOMY AND TUBE CUFF</small></td><td>Cook, Inc.</td><td><span class="badge b-red">Class I</span></td><td>26 Jul 2010</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-2083-2010"></td><td class="mono">Z-2083-2010</td><td><b>Cook Medical Ciaglia Blue Dolphin</b><small>JUBE TRACHEOSTOMY AND TUBE CUFF</small></td><td>Cook, Inc.</td><td><span class="badge b-red">Class I</span></td><td>26 Jul 2010</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-2090-2010"></td><td class="mono">Z-2090-2010</td><td><b>Cook Medical Ciaglia Blue Dolphin</b><small>JUBE TRACHEOSTOMY AND TUBE CUFF</small></td><td>Cook, Inc.</td><td><span class="badge b-red">Class I</span></td><td>26 Jul 2010</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-2077-2010"></td><td class="mono">Z-2077-2010</td><td><b>Cook Medical Ciaglia Blue Dolphin</b><small>JUBE TRACHEOSTOMY AND TUBE CUFF</small></td><td>Cook, Inc.</td><td><span class="badge b-red">Class I</span></td><td>26 Jul 2010</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-2080-2010"></td><td class="mono">Z-2080-2010</td><td><b>Cook Medical Ciaglia Blue Dolphin</b><small>JUBE TRACHEOSTOMY AND TUBE CUFF</small></td><td>Cook, Inc.</td><td><span class="badge b-red">Class I</span></td><td>26 Jul 2010</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-2087-2010"></td><td class="mono">Z-2087-2010</td><td><b>Cook Medical Ciaglia Blue Dolphin</b><small>JUBE TRACHEOSTOMY AND TUBE CUFF</small></td><td>Cook, Inc.</td><td><span class="badge b-red">Class I</span></td><td>26 Jul 2010</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-2088-2010"></td><td class="mono">Z-2088-2010</td><td><b>Cook Medical Ciaglia Blue Dolphin</b><small>JUBE TRACHEOSTOMY AND TUBE CUFF</small></td><td>Cook, Inc.</td><td><span class="badge b-red">Class I</span></td><td>26 Jul 2010</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-2076-2010"></td><td class="mono">Z-2076-2010</td><td><b>Cook Medical Ciaglia Blue Dolphin</b><small>JUBE TRACHEOSTOMY AND TUBE CUFF</small></td><td>Cook, Inc.</td><td><span class="badge b-red">Class I</span></td><td>26 Jul 2010</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-2086-2010"></td><td class="mono">Z-2086-2010</td><td><b>Cook Medical Ciaglia Blue Dolphin</b><small>JUBE TRACHEOSTOMY AND TUBE CUFF</small></td><td>Cook, Inc.</td><td><span class="badge b-red">Class I</span></td><td>26 Jul 2010</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-2092-2010"></td><td class="mono">Z-2092-2010</td><td><b>Cook Medical Ciaglia Blue Dolphin</b><small>JUBE TRACHEOSTOMY AND TUBE CUFF</small></td><td>Cook, Inc.</td><td><span class="badge b-red">Class I</span></td><td>26 Jul 2010</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-2079-2010"></td><td class="mono">Z-2079-2010</td><td><b>Cook Medical Ciaglia Blue Dolphin</b><small>JUBE TRACHEOSTOMY AND TUBE CUFF</small></td><td>Cook, Inc.</td><td><span class="badge b-red">Class I</span></td><td>26 Jul 2010</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-2081-2010"></td><td class="mono">Z-2081-2010</td><td><b>Cook Medical Ciaglia Blue Dolphin</b><small>JUBE TRACHEOSTOMY AND TUBE CUFF</small></td><td>Cook, Inc.</td><td><span class="badge b-red">Class I</span></td><td>26 Jul 2010</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-2089-2010"></td><td class="mono">Z-2089-2010</td><td><b>Cook Medical Ciaglia Blue Dolphin</b><small>JUBE TRACHEOSTOMY AND TUBE CUFF</small></td><td>Cook, Inc.</td><td><span class="badge b-red">Class I</span></td><td>26 Jul 2010</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-2085-2010"></td><td class="mono">Z-2085-2010</td><td><b>Cook Medical Ciaglia Blue Dolphin</b><small>JUBE TRACHEOSTOMY AND TUBE CUFF</small></td><td>Cook, Inc.</td><td><span class="badge b-red">Class I</span></td><td>26 Jul 2010</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr><tr><td><input class="sel" type="checkbox" aria-label="Select Z-2091-2010"></td><td class="mono">Z-2091-2010</td><td><b>Cook Medical Ciaglia Blue Dolphin</b><small>JUBE TRACHEOSTOMY AND TUBE CUFF</small></td><td>Cook, Inc.</td><td><span class="badge b-red">Class I</span></td><td>26 Jul 2010</td><td><span class="badge b-grey">Terminated</span></td><td><a class="btn btn-outline btn-sm" href="Tamilore_Adekanye.html#notice">View</a></td></tr></tbody></table></div>
+    <div class="pager"><span>Showing 1-20 of 76 notices. 20 per page.</span>
+<div class="pages"><span class="dis">Previous</span><span class="cur">1</span><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#">Next</a></div></div>
+  </div>
+</div></main>
+</div>
+</div></section><section class="page" id="create" data-title="Create risk review" hidden><div class="app">
+<aside class="side">
+  <div class="brandbar"><b>ANDtr</b><span>Device Safety<br>Platform</span></div>
+  <nav class="nav" aria-label="Main menu"><a href="Suryanath_Sunil.html#dashboard" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg><span>Dashboard</span></a><a href="Azlan_Ahmed.html#search" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span>Search Notices</span></a><a href="#reviews" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h8"/></svg><span>My Risk Reviews</span></a><a href="#create" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Create Review</span></a><a href="Suryanath_Sunil.html#share" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg><span>Sharing</span></a><a href="Tamilore_Adekanye.html#customers" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2 21v-1a7 7 0 0 1 14 0v1"/><circle cx="17.5" cy="9" r="2.5"/><path d="M18 14a5 5 0 0 1 4 5v2"/></svg><span>Customers</span></a><a href="Tamilore_Adekanye.html#report" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 20v-7M12 20V6M17 20v-10"/></svg><span>Reports</span></a><a href="Azlan_Ahmed.html#import" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg><span>Data Import</span></a></nav>
+  <div class="userbox">
+    <div class="who"><div class="avatar">HN</div><div><b>Hassan Naveed</b><small>Employee</small></div></div>
+    <a class="btn btn-outline btn-block" href="Suryanath_Sunil.html#login">Sign Out</a>
+  </div>
+</aside>
+<div class="main">
+  <header class="top"><div class="search"><svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><input type="text" placeholder="Search notices, firms, recall numbers..." aria-label="Search"></div><button class="bell" type="button" aria-label="Notifications"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 9h18c0-1-3-2-3-9M10 21a2 2 0 0 0 4 0"/></svg><i>2</i></button></header>
+  <main class="content"><div class="head"><div><h1>Create a New Risk Review</h1><p class="muted small">Group the notices that matter for one risk review, then save it.</p></div></div>
+<div class="cols">
+  <section class="panel">
+    <label for="rTitle">Review Title <span class="req">*</span></label>
+    <input id="rTitle" type="text" placeholder="Enter a title for this risk review">
+    <p class="err-t">A title is required before you can save.</p>
+    <label for="rDesc">Description (optional)</label>
+    <textarea id="rDesc" rows="4" placeholder="Enter a description..."></textarea>
+    <h2 class="gap">Selected Notices</h2>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Recall number</th><th>Product</th><th>Firm</th><th>Class</th><th>Actions</th></tr></thead><tbody><tr><td class="mono">Z-1706-2015</td><td>Flow-i Anesthesia System</td><td>Maquet Cardiovascular Us Sales, Llc</td><td><span class="badge b-red">Class I</span></td><td><button class="btn btn-danger btn-sm js-remove" type="button">Remove</button></td></tr><tr><td class="mono">Z-0290-2013</td><td>A3/A5 Anesthesia Delivery System</td><td>Mindray DS USA, Inc. d.b.a. Mindray North America</td><td><span class="badge b-red">Class I</span></td><td><button class="btn btn-danger btn-sm js-remove" type="button">Remove</button></td></tr><tr><td class="mono">Z-0291-2013</td><td>A3/A5 Anesthesia Delivery System</td><td>Mindray DS USA, Inc. d.b.a. Mindray North America</td><td><span class="badge b-red">Class I</span></td><td><button class="btn btn-danger btn-sm js-remove" type="button">Remove</button></td></tr></tbody></table></div>
+    <p class="gap"><a class="btn btn-outline" href="#filters"><svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Add More Notices</a></p>
+    <div class="actions"><button class="btn btn-primary" type="button">Save Review</button><a class="btn btn-outline" href="#reviews">Cancel</a></div>
+  </section>
+  <aside class="panel">
+    <h2>Summary</h2>
+    <table class="kv aside-kv"><tr><th>Notices</th><td>3</td></tr><tr><th>Class I</th><td>3</td></tr><tr><th>Owner</th><td>Hassan Naveed</td></tr></table>
+    <p class="muted small">Notices you select on the search results page appear here. You can remove a notice before saving.</p>
+  </aside>
+</div></main>
+</div>
+</div></section><section class="page" id="reviews" data-title="My risk reviews" hidden><div class="app">
+<aside class="side">
+  <div class="brandbar"><b>ANDtr</b><span>Device Safety<br>Platform</span></div>
+  <nav class="nav" aria-label="Main menu"><a href="Suryanath_Sunil.html#dashboard" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg><span>Dashboard</span></a><a href="Azlan_Ahmed.html#search" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span>Search Notices</span></a><a href="#reviews" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h8"/></svg><span>My Risk Reviews</span></a><a href="#create" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Create Review</span></a><a href="Suryanath_Sunil.html#share" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg><span>Sharing</span></a><a href="Tamilore_Adekanye.html#customers" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2 21v-1a7 7 0 0 1 14 0v1"/><circle cx="17.5" cy="9" r="2.5"/><path d="M18 14a5 5 0 0 1 4 5v2"/></svg><span>Customers</span></a><a href="Tamilore_Adekanye.html#report" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 20v-7M12 20V6M17 20v-10"/></svg><span>Reports</span></a><a href="Azlan_Ahmed.html#import" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg><span>Data Import</span></a></nav>
+  <div class="userbox">
+    <div class="who"><div class="avatar">HN</div><div><b>Hassan Naveed</b><small>Employee</small></div></div>
+    <a class="btn btn-outline btn-block" href="Suryanath_Sunil.html#login">Sign Out</a>
+  </div>
+</aside>
+<div class="main">
+  <header class="top"><div class="search"><svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><input type="text" placeholder="Search notices, firms, recall numbers..." aria-label="Search"></div><button class="bell" type="button" aria-label="Notifications"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 9h18c0-1-3-2-3-9M10 21a2 2 0 0 0 4 0"/></svg><i>2</i></button></header>
+  <main class="content"><div class="head"><div><h1>My Risk Reviews</h1><p class="muted small">Reopen a saved review for future reference.</p></div><div class="head-act"><a class="btn btn-primary" href="#create"><svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Create Review</a></div></div>
+<div class="toolrow"><input type="text" placeholder="Search my reviews..." aria-label="Search my reviews"><select aria-label="Sharing filter"><option>All reviews</option><option>Shared</option><option>Not shared</option></select></div>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Review title</th><th>Notices</th><th>Created</th><th>Last updated</th><th>Sharing</th><th>Actions</th></tr></thead><tbody><tr><td><b>Anesthesia gas machine leak review</b></td><td>3</td><td>12 Oct 2026</td><td>14 Oct 2026</td><td><span class="badge b-green">Shared with 2</span></td><td class="nowrap"><a class="btn btn-primary btn-sm" href="Sanjida_Afrin.html#findings">Open</a> <a class="btn btn-outline btn-sm" href="#edit">Edit</a> <a class="btn btn-danger btn-sm" href="#edit">Delete</a></td></tr><tr><td><b>Tracheostomy tube cuff failures</b></td><td>5</td><td>8 Oct 2026</td><td>8 Oct 2026</td><td><span class="badge b-green">Shared with 1</span></td><td class="nowrap"><a class="btn btn-primary btn-sm" href="Sanjida_Afrin.html#findings">Open</a> <a class="btn btn-outline btn-sm" href="#edit">Edit</a> <a class="btn btn-danger btn-sm" href="#edit">Delete</a></td></tr><tr><td><b>Autotransfusion apparatus alarms</b></td><td>4</td><td>1 Oct 2026</td><td>5 Oct 2026</td><td><span class="badge b-grey">Not shared</span></td><td class="nowrap"><a class="btn btn-primary btn-sm" href="Sanjida_Afrin.html#findings">Open</a> <a class="btn btn-outline btn-sm" href="#edit">Edit</a> <a class="btn btn-danger btn-sm" href="#edit">Delete</a></td></tr><tr><td><b>Emergency ventilator recalls 2025</b></td><td>6</td><td>24 Sep 2026</td><td>24 Sep 2026</td><td><span class="badge b-grey">Not shared</span></td><td class="nowrap"><a class="btn btn-primary btn-sm" href="Sanjida_Afrin.html#findings">Open</a> <a class="btn btn-outline btn-sm" href="#edit">Edit</a> <a class="btn btn-danger btn-sm" href="#edit">Delete</a></td></tr></tbody></table></div>
+<section class="panel gap">
+  <h2>Empty state (new account)</h2>
+  <div class="empty"><b>You have no saved reviews yet.</b><span class="muted small">Search the notices and create your first risk review.</span><a class="btn btn-primary btn-sm" href="Azlan_Ahmed.html#search">Search Notices</a></div>
+</section></main>
+</div>
+</div></section><section class="page" id="edit" data-title="Edit risk review" hidden><div class="app">
+<aside class="side">
+  <div class="brandbar"><b>ANDtr</b><span>Device Safety<br>Platform</span></div>
+  <nav class="nav" aria-label="Main menu"><a href="Suryanath_Sunil.html#dashboard" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg><span>Dashboard</span></a><a href="Azlan_Ahmed.html#search" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span>Search Notices</span></a><a href="#reviews" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h8"/></svg><span>My Risk Reviews</span></a><a href="#create" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Create Review</span></a><a href="Suryanath_Sunil.html#share" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg><span>Sharing</span></a><a href="Tamilore_Adekanye.html#customers" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2 21v-1a7 7 0 0 1 14 0v1"/><circle cx="17.5" cy="9" r="2.5"/><path d="M18 14a5 5 0 0 1 4 5v2"/></svg><span>Customers</span></a><a href="Tamilore_Adekanye.html#report" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 20v-7M12 20V6M17 20v-10"/></svg><span>Reports</span></a><a href="Azlan_Ahmed.html#import" class=""><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg><span>Data Import</span></a></nav>
+  <div class="userbox">
+    <div class="who"><div class="avatar">HN</div><div><b>Hassan Naveed</b><small>Employee</small></div></div>
+    <a class="btn btn-outline btn-block" href="Suryanath_Sunil.html#login">Sign Out</a>
+  </div>
+</aside>
+<div class="main">
+  <header class="top"><div class="search"><svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><input type="text" placeholder="Search notices, firms, recall numbers..." aria-label="Search"></div><button class="bell" type="button" aria-label="Notifications"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 9h18c0-1-3-2-3-9M10 21a2 2 0 0 0 4 0"/></svg><i>2</i></button></header>
+  <main class="content"><p><a class="back" href="#reviews"><svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back to My Risk Reviews</a></p>
+<div class="head"><div><h1>Edit Risk Review</h1></div></div>
+<div class="cols">
+  <section class="panel">
+    <label for="eTitle">Review Title <span class="req">*</span></label>
+    <input id="eTitle" type="text" value="Anesthesia gas machine leak review">
+    <label for="eDesc">Description</label>
+    <textarea id="eDesc" rows="4">Review of anesthesia and resuscitation equipment recalls linked to gas leaks and seal failures.</textarea>
+    <h2 class="gap">Notices in this review</h2>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Recall number</th><th>Product</th><th>Firm</th><th>Class</th><th>Actions</th></tr></thead><tbody><tr><td class="mono">Z-1706-2015</td><td>Flow-i Anesthesia System</td><td>Maquet Cardiovascular Us Sales, Llc</td><td><span class="badge b-red">Class I</span></td><td><button class="btn btn-danger btn-sm js-remove" type="button">Remove</button></td></tr><tr><td class="mono">Z-0290-2013</td><td>A3/A5 Anesthesia Delivery System</td><td>Mindray DS USA, Inc. d.b.a. Mindray North America</td><td><span class="badge b-red">Class I</span></td><td><button class="btn btn-danger btn-sm js-remove" type="button">Remove</button></td></tr><tr><td class="mono">Z-0291-2013</td><td>A3/A5 Anesthesia Delivery System</td><td>Mindray DS USA, Inc. d.b.a. Mindray North America</td><td><span class="badge b-red">Class I</span></td><td><button class="btn btn-danger btn-sm js-remove" type="button">Remove</button></td></tr></tbody></table></div>
+    <div class="actions"><button class="btn btn-primary" type="button">Save Changes</button><a class="btn btn-outline" href="#reviews">Cancel</a></div>
+  </section>
+  <aside class="panel danger-zone">
+    <h2>Delete review</h2>
+    <p class="muted small">Deleting removes this review and its findings. The notices in the dataset are not deleted.</p>
+    <button class="btn btn-danger" type="button" data-open="delModal">Delete Review</button>
+  </aside>
+</div>
+<div class="modal" id="delModal" role="dialog" aria-modal="true" aria-labelledby="delTitle" hidden>
+  <div class="modal-box">
+    <h2 id="delTitle">Delete this review?</h2>
+    <p class="muted">"Anesthesia gas machine leak review" and its findings will be removed. Customers it was shared with will lose access. The notices themselves are not deleted.</p>
+    <div class="actions r"><button class="btn btn-outline" type="button" data-close>Cancel</button><a class="btn btn-primary" href="#reviews">Delete Review</a></div>
+  </div>
+</div></main>
+</div>
+</div></section>
+<script>
+(function () {
+  var pages = Array.prototype.slice.call(document.querySelectorAll(".page"));
+  var stripTitle = document.getElementById("stripTitle");
+  var prev = document.getElementById("prevPg");
+  var next = document.getElementById("nextPg");
+
+  function show() {
+    var id = location.hash.slice(1);
+    var i = pages.findIndex(function (p) { return p.id === id; });
+    if (i < 0) { i = 0; }
+    pages.forEach(function (p, k) { p.hidden = k !== i; });
+    stripTitle.textContent = "Wireframe " + (i + 1) + " of " + pages.length + ": " + pages[i].getAttribute("data-title");
+    prev.classList.toggle("off", i === 0);
+    next.classList.toggle("off", i === pages.length - 1);
+    if (i > 0) { prev.setAttribute("href", "#" + pages[i - 1].id); }
+    if (i < pages.length - 1) { next.setAttribute("href", "#" + pages[i + 1].id); }
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener("hashchange", show);
+  show();
+
+  function updateSelection() {
+    var counter = document.getElementById("selCount");
+    if (!counter) { return; }
+    var boxes = document.querySelectorAll(".sel");
+    var n = 0;
+    boxes.forEach(function (b) { if (b.checked) { n++; } });
+    counter.textContent = n;
+    var all = document.getElementById("selAll");
+    if (all) { all.checked = n === boxes.length && n > 0; }
+  }
+
+  document.addEventListener("click", function (ev) {
+    var t = ev.target;
+    var opener = t.closest("[data-open]");
+    if (opener) {
+      var m = document.getElementById(opener.getAttribute("data-open"));
+      if (m) { m.hidden = false; }
+      return;
+    }
+    if (t.closest("[data-close]")) {
+      var box = t.closest(".modal");
+      if (box) { box.hidden = true; }
+      return;
+    }
+    if (t.classList.contains("modal")) { t.hidden = true; return; }
+
+    var remove = t.closest(".js-remove");
+    if (remove) { remove.closest("tr").remove(); return; }
+
+    var print = t.closest(".js-print");
+    if (print) { window.print(); return; }
+
+    var stop = t.closest(".js-stop");
+    if (stop) {
+      var row = stop.closest("tr");
+      row.querySelector(".st").innerHTML = '<span class="badge b-grey">Sharing stopped</span>';
+      stop.disabled = true;
+      stop.textContent = "Stopped";
+      return;
+    }
+
+    var share = t.closest(".js-share");
+    if (share) {
+      var sel = document.getElementById("shareCustomer");
+      var err = document.getElementById("shareErr");
+      var ok = document.getElementById("shareOk");
+      if (!sel.value) { err.hidden = false; ok.hidden = true; } else { err.hidden = true; ok.hidden = false; }
+      return;
+    }
+
+    if (t.closest(".js-clearsel")) {
+      document.querySelectorAll(".sel").forEach(function (b) { b.checked = false; });
+      updateSelection();
+      return;
+    }
+
+    var cmd = t.closest(".tb button");
+    if (cmd) { document.execCommand(cmd.getAttribute("data-cmd")); }
+  });
+
+  document.addEventListener("mousedown", function (ev) {
+    if (ev.target.closest(".tb button")) { ev.preventDefault(); }
+  });
+
+  document.addEventListener("change", function (ev) {
+    var t = ev.target;
+    if (t.id === "selAll") {
+      document.querySelectorAll(".sel").forEach(function (b) { b.checked = t.checked; });
+      updateSelection();
+    } else if (t.classList && t.classList.contains("sel")) {
+      updateSelection();
+    }
+  });
+  updateSelection();
+
+  var form = document.getElementById("loginForm");
+  if (form) {
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var email = document.getElementById("email").value.trim();
+      var pw = document.getElementById("pw").value;
+      var err = document.getElementById("loginError");
+      if (!email || !pw) { err.hidden = false; return; }
+      err.hidden = true;
+      location.hash = /customer/i.test(email) ? "customer-dashboard" : "dashboard";
+    });
+  }
+})();
+
+</script>
+</body>
+</html>

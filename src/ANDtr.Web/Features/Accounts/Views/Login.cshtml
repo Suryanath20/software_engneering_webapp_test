@@ -1,0 +1,58 @@
+@model ANDtr.Web.Features.Accounts.LoginViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Sign In";
+}
+
+<div class="auth">
+    <div class="authbox">
+        <div class="brandlogo">
+            <b>ANDtr</b>
+            <span>Medical Device Safety & Recall Platform</span>
+        </div>
+
+        <h1 class="center" style="font-size: 20px; margin-bottom: 4px;">Sign in to your account</h1>
+        <p class="muted small center" style="margin-bottom: 24px;">Enter your credentials to access the safety platform.</p>
+
+        <partial name="_Validation" />
+
+        <form asp-controller="Accounts" asp-action="Login" method="post" id="loginForm">
+            <input type="hidden" asp-for="ReturnUrl" />
+
+            <div style="margin-bottom: 16px;">
+                <label asp-for="Email">Email Address <span class="req">*</span></label>
+                <input asp-for="Email" type="email" placeholder="name@company.com" autocomplete="email" required autofocus />
+                <span asp-validation-for="Email" class="err-t"></span>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+                <label asp-for="Password">Password <span class="req">*</span></label>
+                <input asp-for="Password" type="password" placeholder="Enter your password" autocomplete="current-password" required />
+                <span asp-validation-for="Password" class="err-t"></span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px;">
+                <label class="check m-0">
+                    <input asp-for="RememberMe" type="checkbox" /> Remember me
+                </label>
+                <span class="xs muted">5 attempts before lockout</span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" style="padding: 10px 16px; font-weight: 600;">
+                Sign In
+            </button>
+        </form>
+
+        <hr />
+
+        <div style="background: #fafafa; border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; font-size: 12px;">
+            <b style="color: var(--ink); display: block; margin-bottom: 4px;">Default Test Accounts (Dev):</b>
+            <div style="margin-bottom: 4px;">
+                <span class="badge b-brand">Employee</span> <code>employee@andtr.test</code> / <code>Employee#123</code>
+            </div>
+            <div>
+                <span class="badge b-grey">Customer</span> <code>customer@andtr.test</code> / <code>Customer#123</code>
+            </div>
+        </div>
+    </div>
+</div>
