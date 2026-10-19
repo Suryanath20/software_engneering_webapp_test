@@ -2,7 +2,12 @@
     Layout = "_Layout";
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
     var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
-    var userFullName = User.Identity?.Name ?? "Employee";
+    var userFullName = User.FindFirst("FullName")?.Value;
+    if (string.IsNullOrWhiteSpace(userFullName))
+    {
+        userFullName = User.Identity?.Name ?? "Employee";
+    }
+    var userRole = User.FindFirst("RoleLabel")?.Value ?? (User.IsInRole("Employee") ? "Employee" : "Customer");
     var userInitial = userFullName.Length > 0 ? userFullName.Substring(0, 1).ToUpper() : "E";
 }
 
@@ -52,7 +57,7 @@
                 <div class="avatar">@userInitial</div>
                 <div>
                     <b>@userFullName</b>
-                    <small>Employee</small>
+                    <span class="badge b-brand" style="font-size:10.5px; padding:1px 6px; margin-top:2px; display:inline-block;">@userRole</span>
                 </div>
             </div>
             <form asp-controller="Accounts" asp-action="Logout" method="post" class="m-0">
@@ -63,15 +68,21 @@
 
     <!-- Main Content Area -->
     <div class="main">
-        <header class="top">
-            <form action="/Search/Results" method="get" class="search" role="search">
+        <header class="top" style="display:flex; justify-content:space-between; align-items:center;">
+            <form action="/Search/Results" method="get" class="search" role="search" style="flex:1; max-width:440px;">
                 <svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
                 <input type="text" name="keyword" placeholder="Search notices, firms, recall numbers..." aria-label="Search notices" />
             </form>
-            <a href="/SharedReviews/CustomerComments" class="bell" title="Customer Comments" aria-label="Customer comments notification">
-                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 9h18c0-1-3-2-3-9M10 21a2 2 0 0 0 4 0"/></svg>
-                <i>2</i>
-            </a>
+            <div style="display:flex; align-items:center; gap:16px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="font-size:13px; font-weight:600; color:var(--ink);">Welcome, @userFullName</span>
+                    <span class="badge b-brand">@userRole</span>
+                </div>
+                <a href="/SharedReviews/CustomerComments" class="bell" title="Customer Comments" aria-label="Customer comments notification">
+                    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 9h18c0-1-3-2-3-9M10 21a2 2 0 0 0 4 0"/></svg>
+                    <i>2</i>
+                </a>
+            </div>
         </header>
         <main class="content" id="main-content">
             <partial name="_Validation" />

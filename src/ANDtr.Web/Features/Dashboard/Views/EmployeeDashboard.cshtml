@@ -4,10 +4,22 @@
     ViewData["Title"] = "Employee Dashboard";
 }
 
+@{
+    var userFullName = User.FindFirst("FullName")?.Value;
+    if (string.IsNullOrWhiteSpace(userFullName))
+    {
+        userFullName = Model.EmployeeName;
+    }
+    var userRole = User.FindFirst("RoleLabel")?.Value ?? (User.IsInRole("Employee") ? "Employee" : "Customer");
+}
+
 <div class="head">
     <div>
-        <h1>Welcome, @Model.EmployeeName</h1>
-        <p class="muted small">Role: Employee</p>
+        <h1 style="display:flex; align-items:center; gap:10px;">
+            Welcome, @userFullName
+            <span class="badge b-brand" style="font-size:13px; font-weight:600; padding:3px 9px;">@userRole</span>
+        </h1>
+        <p class="muted small">Medical Device Safety and Recall Operations</p>
     </div>
 </div>
 

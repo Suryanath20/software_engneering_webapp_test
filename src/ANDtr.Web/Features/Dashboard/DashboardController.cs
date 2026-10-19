@@ -52,14 +52,49 @@ public class DashboardController : Controller
         var myReviewsCount = await _reviewService.GetEmployeeReviewCountAsync(userId);
         var sharedReviewsCount = await _reviewService.GetSharedReviewCountAsync();
 
-        // Sample recent activity tailored from database
-        var recentActivities = new List<RecentActivityItem>
+        // Dynamic recent activities fetched directly from database
+        var recentActivities = new List<RecentActivityItem>();
+
+        var latestReview = await _db.RiskReviews.OrderByDescending(r => r.UpdatedAt).FirstOrDefaultAsync();
+        if (latestReview != null)
         {
-            new() { Title = "You saved the review \"Anesthesia gas machine leak review\"", TimeAgo = "2 hours ago", IconType = "review" },
-            new() { Title = "Maya Patel commented on \"Tracheostomy tube cuff failures\"", TimeAgo = "Yesterday", IconType = "comment" },
-            new() { Title = "You shared a review with Westbridge Hospital Trust", TimeAgo = "2 days ago", IconType = "share" },
-            new() { Title = $"Dataset imported: {totalNotices} notices", TimeAgo = "5 days ago", IconType = "import" }
-        };
+            recentActivities.Add(new RecentActivityItem
+            {
+                Title = $"Risk review \"{latestReview.Title}\" updated",
+                TimeAgo = "Recent",
+                IconType = "review"
+            });
+        }
+
+        var latestComment = await _db.Comments.Include(c => c.Author).Include(c => c.Review).OrderByDescending(c => c.CreatedAt).FirstOrDefaultAsync();
+        if (latestComment != null)
+        {
+            recentActivities.Add(new RecentActivityItem
+            {
+                Title = $"{latestComment.Author?.FullName ?? "User"} commented on \"{latestComment.Review?.Title ?? "Risk Review"}\"",
+                TimeAgo = "Recent",
+                IconType = "comment"
+            });
+        }
+
+        var latestShare = await _db.ReviewShares.Include(s => s.Customer).Include(s => s.Review).OrderByDescending(s => s.SharedAt).FirstOrDefaultAsync();
+        if (latestShare != null)
+        {
+            var targetOrg = !string.IsNullOrEmpty(latestShare.Customer?.CompanyName) ? latestShare.Customer.CompanyName : (latestShare.Customer?.FullName ?? "Customer");
+            recentActivities.Add(new RecentActivityItem
+            {
+                Title = $"Shared \"{latestShare.Review?.Title ?? "Review"}\" with {targetOrg}",
+                TimeAgo = "Recent",
+                IconType = "share"
+            });
+        }
+
+        recentActivities.Add(new RecentActivityItem
+        {
+            Title = $"Dataset active: {totalNotices} FDA notices indexed",
+            TimeAgo = "Verified",
+            IconType = "import"
+        });
 
         var model = new EmployeeDashboardViewModel
         {

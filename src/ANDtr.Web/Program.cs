@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using ANDtr.Web.Common;
 using ANDtr.Web.Data;
 using ANDtr.Web.Models;
 using ANDtr.Web.Services;
@@ -63,6 +64,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
 
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AppClaimsPrincipalFactory>();
+
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Accounts/Login";
@@ -100,7 +103,10 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<MustChangePasswordFilter>();
+});
 
 var app = builder.Build();
 

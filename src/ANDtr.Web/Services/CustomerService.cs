@@ -63,7 +63,7 @@ public class CustomerService : ICustomerService
     }
 
     public async Task<(bool Success, string Message, string? GeneratedPassword)> CreateCustomerAsync(
-        string fullName, string email, string? companyName, string? explicitPassword = null, string role = "Customer")
+        string fullName, string email, string? companyName, string? explicitPassword = null, string role = "Customer", bool mustChangePassword = true)
     {
         var existing = await _userManager.FindByEmailAsync(email);
         if (existing != null)
@@ -80,6 +80,7 @@ public class CustomerService : ICustomerService
             FullName = fullName.Trim(),
             CompanyName = string.IsNullOrWhiteSpace(companyName) ? null : companyName.Trim(),
             IsActive = true,
+            MustChangePassword = mustChangePassword,
             CreatedAt = DateTime.UtcNow,
             EmailConfirmed = true
         };

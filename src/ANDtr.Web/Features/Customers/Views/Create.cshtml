@@ -63,6 +63,13 @@
                 <span asp-validation-for="ConfirmPassword" class="err-t"></span>
             </div>
 
+            <div style="margin-bottom: 18px;">
+                <label class="check" style="cursor:pointer; display:flex; align-items:center; gap:8px; font-weight:normal;">
+                    <input asp-for="MustChangePassword" type="checkbox" style="width:auto; margin:0;" />
+                    <span><b>Must change password at first login</b> (enforced on temporary passwords)</span>
+                </label>
+            </div>
+
             <div class="actions">
                 <button class="btn btn-primary" type="submit">Create Account</button>
                 <a class="btn btn-outline" href="/Customers">Cancel</a>

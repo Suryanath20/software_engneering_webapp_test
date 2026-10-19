@@ -7,6 +7,7 @@ public class CustomerListViewModel
 {
     public string? Search { get; set; }
     public List<CustomerListItemDto> Customers { get; set; } = new();
+    public CreateCustomerViewModel NewUser { get; set; } = new();
 }
 
 public class CreateCustomerViewModel
@@ -20,9 +21,11 @@ public class CreateCustomerViewModel
     [Display(Name = "Email Address")]
     public string Email { get; set; } = string.Empty;
 
-    [Display(Name = "Company")]
+    [Display(Name = "Company / Organization")]
     public string? Company { get; set; }
 
+    [Required(ErrorMessage = "Role is required.")]
+    [RegularExpression("^(Customer|Employee)$", ErrorMessage = "Role must be Customer or Employee.")]
     public string Role { get; set; } = "Customer";
 
     [Required(ErrorMessage = "A temporary password is required.")]
@@ -36,4 +39,7 @@ public class CreateCustomerViewModel
     [Compare("Password", ErrorMessage = "The passwords do not match.")]
     [Display(Name = "Confirm Password")]
     public string ConfirmPassword { get; set; } = string.Empty;
+
+    [Display(Name = "Must change password at first login")]
+    public bool MustChangePassword { get; set; } = true;
 }

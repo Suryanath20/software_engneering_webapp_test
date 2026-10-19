@@ -29,10 +29,8 @@ public static class DbSeeder
         // 2. Users
         var usersToSeed = new[]
         {
-            (Email: "employee@andtr.test", Password: "Employee#123", Name: "Suryanath Sunil", Company: "ANDtr Risk Team", Role: "Employee"),
-            (Email: "employee2@andtr.test", Password: "Employee#123", Name: "Azlan Ahmed", Company: "ANDtr Risk Team", Role: "Employee"),
-            (Email: "customer@andtr.test", Password: "Customer#123", Name: "Maya Patel", Company: "Northfield Medical Group", Role: "Customer"),
-            (Email: "customer2@andtr.test", Password: "Customer#123", Name: "Daniel Okafor", Company: "Westbridge Hospital Trust", Role: "Customer")
+            (Email: "employee@andtr.test", Password: "Employee#123", Name: "Alex Taylor", Company: "ANDtr Risk Team", Role: "Employee"),
+            (Email: "customer@andtr.test", Password: "Customer#123", Name: "Jordan Smith", Company: "Northfield Medical Group", Role: "Customer")
         };
 
         ApplicationUser? primaryEmployee = null;

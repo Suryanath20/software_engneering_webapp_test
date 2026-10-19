@@ -45,6 +45,7 @@ public partial class InitialCreate : Migration
                 CompanyName = table.Column<string>(type: "longtext", nullable: true)
                     .Annotation("MySql:CharSet", "utf8mb4"),
                 IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                MustChangePassword = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
                 CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                 UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                     .Annotation("MySql:CharSet", "utf8mb4"),

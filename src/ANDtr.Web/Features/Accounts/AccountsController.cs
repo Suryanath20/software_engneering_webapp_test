@@ -81,6 +81,11 @@ public class AccountsController : Controller
         {
             _logger.LogInformation("User {Email} logged in successfully.", model.Email);
 
+            if (user.MustChangePassword)
+            {
+                return RedirectToAction(nameof(ChangePassword));
+            }
+
             if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
             {
                 return Redirect(model.ReturnUrl);
@@ -96,6 +101,53 @@ public class AccountsController : Controller
 
         ModelState.AddModelError(string.Empty, "Invalid email address or password.");
         return View("Views/Login", model);
+    }
+
+    [HttpGet]
+    [Authorize]
+    public IActionResult ChangePassword()
+    {
+        return View("Views/ChangePassword", new ChangePasswordViewModel());
+    }
+
+    [HttpPost]
+    [Authorize]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View("Views/ChangePassword", model);
+        }
+
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return RedirectToAction(nameof(Login));
+        }
+
+        var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+        if (!result.Succeeded)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return View("Views/ChangePassword", model);
+        }
+
+        user.MustChangePassword = false;
+        await _userManager.UpdateAsync(user);
+
+        await _signInManager.RefreshSignInAsync(user);
+        TempData["Success"] = "Your password has been updated successfully.";
+
+        if (await _userManager.IsInRoleAsync(user, "Customer"))
+        {
+            return RedirectToAction("Index", "SharedReviews");
+        }
+
+        return RedirectToAction("Index", "Dashboard");
     }
 
     [HttpPost]

@@ -19,10 +19,17 @@ public class CustomersController : Controller
     {
         var customers = await _customerService.GetCustomersAsync(search);
 
+        var generatedPassword = _customerService.GenerateSecurePassword();
         var model = new CustomerListViewModel
         {
             Search = search,
-            Customers = customers
+            Customers = customers,
+            NewUser = new CreateCustomerViewModel
+            {
+                Password = generatedPassword,
+                ConfirmPassword = generatedPassword,
+                MustChangePassword = true
+            }
         };
 
         return View("Views/Index", model);
@@ -35,7 +42,8 @@ public class CustomersController : Controller
         var model = new CreateCustomerViewModel
         {
             Password = generatedPassword,
-            ConfirmPassword = generatedPassword
+            ConfirmPassword = generatedPassword,
+            MustChangePassword = true
         };
 
         return View("Views/Create", model);
@@ -43,17 +51,39 @@ public class CustomersController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(CreateCustomerViewModel model)
+    public async Task<IActionResult> Create(CreateCustomerViewModel model, string? returnView = null)
     {
         if (!ModelState.IsValid)
         {
+            if (string.Equals(returnView, "Index", StringComparison.OrdinalIgnoreCase))
+            {
+                var customers = await _customerService.GetCustomersAsync();
+                var listModel = new CustomerListViewModel
+                {
+                    Customers = customers,
+                    NewUser = model
+                };
+                return View("Views/Index", listModel);
+            }
             return View("Views/Create", model);
         }
 
-        var result = await _customerService.CreateCustomerAsync(model.FullName, model.Email, model.Company, model.Password, model.Role);
+        var result = await _customerService.CreateCustomerAsync(
+            model.FullName, model.Email, model.Company, model.Password, model.Role, model.MustChangePassword);
+
         if (!result.Success)
         {
-            ModelState.AddModelError(string.Empty, result.Message);
+            ModelState.AddModelError("Email", result.Message);
+            if (string.Equals(returnView, "Index", StringComparison.OrdinalIgnoreCase))
+            {
+                var customers = await _customerService.GetCustomersAsync();
+                var listModel = new CustomerListViewModel
+                {
+                    Customers = customers,
+                    NewUser = model
+                };
+                return View("Views/Index", listModel);
+            }
             return View("Views/Create", model);
         }
 
