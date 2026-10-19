@@ -63,7 +63,7 @@ public class CustomerService : ICustomerService
     }
 
     public async Task<(bool Success, string Message, string? GeneratedPassword)> CreateCustomerAsync(
-        string fullName, string email, string? companyName, string? explicitPassword = null)
+        string fullName, string email, string? companyName, string? explicitPassword = null, string role = "Customer")
     {
         var existing = await _userManager.FindByEmailAsync(email);
         if (existing != null)
@@ -91,8 +91,9 @@ public class CustomerService : ICustomerService
             return (false, $"Could not create user: {error}", null);
         }
 
-        await _userManager.AddToRoleAsync(user, "Customer");
-        return (true, "Customer account created successfully.", password);
+        var targetRole = string.Equals(role, "Employee", StringComparison.OrdinalIgnoreCase) ? "Employee" : "Customer";
+        await _userManager.AddToRoleAsync(user, targetRole);
+        return (true, $"{targetRole} account created successfully.", password);
     }
 
     public async Task<bool> ToggleCustomerActiveAsync(string customerId)

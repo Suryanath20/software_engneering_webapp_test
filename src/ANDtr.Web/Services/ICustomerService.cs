@@ -17,7 +17,7 @@ public interface ICustomerService
 {
     Task<List<CustomerListItemDto>> GetCustomersAsync(string? search = null);
     Task<ApplicationUser?> GetCustomerByIdAsync(string id);
-    Task<(bool Success, string Message, string? GeneratedPassword)> CreateCustomerAsync(string fullName, string email, string? companyName, string? explicitPassword = null);
+    Task<(bool Success, string Message, string? GeneratedPassword)> CreateCustomerAsync(string fullName, string email, string? companyName, string? explicitPassword = null, string role = "Customer");
     Task<bool> ToggleCustomerActiveAsync(string customerId);
     string GenerateSecurePassword();
 }

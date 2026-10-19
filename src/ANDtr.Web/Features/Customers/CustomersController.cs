@@ -50,14 +50,14 @@ public class CustomersController : Controller
             return View("Views/Create", model);
         }
 
-        var result = await _customerService.CreateCustomerAsync(model.FullName, model.Email, model.Company, model.Password);
+        var result = await _customerService.CreateCustomerAsync(model.FullName, model.Email, model.Company, model.Password, model.Role);
         if (!result.Success)
         {
             ModelState.AddModelError(string.Empty, result.Message);
             return View("Views/Create", model);
         }
 
-        TempData["Success"] = $"Customer account created for {model.FullName} ({model.Email}). Temporary password: {result.GeneratedPassword}";
+        TempData["Success"] = $"Account created for {model.FullName} ({model.Email}) as {model.Role}. Temporary password: {result.GeneratedPassword}";
         return RedirectToAction(nameof(Index));
     }
 

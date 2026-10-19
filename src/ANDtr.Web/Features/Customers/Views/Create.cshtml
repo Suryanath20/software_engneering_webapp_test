@@ -39,8 +39,12 @@
             </div>
 
             <div style="margin-bottom: 14px;">
-                <label for="cRole">Role</label>
-                <input id="cRole" type="text" value="Customer" disabled />
+                <label asp-for="Role">Role <span class="req">*</span></label>
+                <select asp-for="Role" id="cRole" style="width: 100%; border: 1px solid #d5d8dd; border-radius: 4px; padding: 9px 12px; font: inherit; font-size: 13.5px; background: #fff;">
+                    <option value="Customer" selected>Customer (Hospital Partner)</option>
+                    <option value="Employee">Employee (ANDtr Safety Officer)</option>
+                </select>
+                <span asp-validation-for="Role" class="err-t"></span>
             </div>
 
             <div style="margin-bottom: 14px;">
