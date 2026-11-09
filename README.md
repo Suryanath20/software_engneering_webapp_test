@@ -1,136 +1,95 @@
-# ANDtr — Medical Device Safety and Recall Notice Platform
+# ANDtr — Medical Device Safety & Recall Platform
 
-[![.NET 8.0](https://img.shields.io/badge/.NET-8.0-blue.svg)](https://dotnet.microsoft.com/download/dotnet/8.0)
-[![Database](https://img.shields.io/badge/Database-MySQL%208.0-orange.svg)](https://www.mysql.com/)
-[![Tests](https://img.shields.io/badge/Tests-xUnit%20Passing-brightgreen.svg)]()
-
-> Enterprise web platform for the systematic ingestion, risk review, multi-stakeholder collaboration, and customer distribution of FDA Medical Device Recalls.
+**Module:** MOD003263 Software Engineering  
+**Group:** G4  
+**Framework:** ASP.NET Core 8.0 MVC | C# 12 | EF Core 8 | ClosedXML | Bootstrap 5  
 
 ---
 
-##  Table of Contents
-1. [Platform Overview](#platform-overview)
-2. [Team Contributions & Feature Ownership](#team-contributions--feature-ownership)
-3. [Architecture & Key Technologies](#architecture--key-technologies)
-4. [6-Step Quickstart Guide](#6-step-quickstart-guide)
-5. [Default User Credentials](#default-user-credentials)
-6. [Branching & Git Workflow](#branching--git-workflow)
-7. [Running Automated Tests](#running-automated-tests)
-8. [Documentation Links](#documentation-links)
+## 1. Quickstart (How to Run)
 
----
+To run the application locally:
 
-##  Platform Overview
-**ANDtr** serves regulatory compliance officers, clinical safety engineers, hospital procurement teams, and healthcare executives by turning high-volume FDA medical device recall notices into actionable, auditable risk assessments. 
-
-Key capabilities include:
-- **High-Throughput Excel Ingestion:** Parse multi-hundred row FDA datasets with automatic duplicate detection, data normalization, and carriage-return sanitization.
-- **Parametric Notice Search & Synonyms:** Fast querying with keyword search, classification filters (Class I, II, III), firm filters, and medical synonym enrichment.
-- **Cross-Page Notice Selection:** Persistent notice basket across paginated search results to seed new risk reviews.
-- **Structured Risk Reviews & Findings:** Rich-text clinical impact assessments, risk ratings (Critical, High, Moderate, Low), and executive summaries.
-- **Multi-Party Sharing:** Secure review distribution to authorized customer organizations with access revocation and access logs.
-- **Two-Way Customer Feedback:** Interactive comment threads between hospital representatives and ANDtr compliance officers.
-- **Executive PDF & CSV Reports:** Formatted printable clinical review reports and spreadsheet exports.
-
----
-
-##  Team Contributions & Feature Ownership
-
-The platform implements all user journeys and wireframe specifications across 5 team modules:
-
-| Team Member | Wireframe Source | Feature Modules & Ownership | Git Branch Convention |
-| :--- | :--- | :--- | :--- |
-| **Suryanath Sunil** | `Suryanath_Sunil.html` | **Dashboard, Search & Filtering:** Operational KPIs, quick recall lookups, persistent cross-page checkbox selection, parametric filters (class, firm, status, date), customer account activation management. | `feature/suryanath-dashboard-search` |
-| **Azlan Ahmed** | `Azlan_Ahmed.html` | **Data Ingestion & Notice Details:** ClosedXML Excel pipeline, duplicate recall checking, ingestion audit logs, full recall notice specification view, product identification. | `feature/azlan-notice-import` |
-| **Hassan Naveed** | `Hassan_Naveed.html` | **Risk Reviews & Findings:** Review authoring studio, vanilla JS rich-text editor with HTML sanitization, risk scoring matrix, executive print/PDF reporting, CSV exports. | `feature/hassan-reviews-findings` |
-| **Sanjida Afrin** | `Sanjida_Afrin.html` | **Collaboration & Distribution:** Customer sharing modal, active share management, instant revocation, access audit timestamps, review dispatch workflow. | `feature/sanjida-sharing-collaboration` |
-| **Tamilore Adekanye** | `Tamilore_Adekanye.html` | **Customer Portal & Dialogue:** Customer-facing portal, shared review viewer, interactive comment thread with "awaiting response" state management. | `feature/tamilore-customer-portal` |
-
----
-
-##  Architecture & Key Technologies
-
-- **Runtime & Framework:** ASP.NET Core 8.0 MVC (C# 12)
-- **Data Persistence:** Entity Framework Core 8 with Pomelo MySQL 8 Provider (`8.0.2`), including transparent in-memory fallback for local environments without Docker.
-- **Authentication & Security:** ASP.NET Core Identity with role-based authorization (`Employee`, `Customer`), password hashing, and anti-forgery token verification (`[ValidateAntiForgeryToken]`).
-- **Excel Processing:** ClosedXML (`0.102.2`) for high-performance `.xlsx` streaming and workbook parsing.
-- **HTML Sanitization:** Ganss.Xss.HtmlSanitizer (`9.2.1039`) preventing XSS in rich-text findings.
-- **Frontend:** Server-rendered Razor views styled with Bootstrap 5, custom Crimson theme (`#C8102E`), vanilla JavaScript (no heavy node build dependencies), and print-optimized stylesheets (`@media print`).
-- **Testing:** xUnit, Moq, EF Core InMemory, Coverlet test runner.
-
----
-
-##  6-Step Quickstart Guide
-
-### 1. Prerequisites
-- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) or later
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (for MySQL 8 container) OR a local MySQL 8 instance
-
-### 2. Clone Repository
 ```bash
+# 1. Open terminal in the project folder
 cd ANDtr
+
+# 2. Run the application
+dotnet run --launch-profile http
 ```
 
-### 3. Start Database Container
-```bash
-docker compose up -d
-```
-*Note: Verify container is healthy with `docker ps`. If running without Docker, `ANDtr.Web` will automatically use an in-memory database to allow immediate exploration.*
-
-### 4. Build Solution
-```bash
-dotnet build
-```
-
-### 5. Run Application & Auto-Seed
-```bash
-dotnet run --project src/ANDtr.Web
-```
-*The application starts at `http://localhost:5000` (or `https://localhost:5001`).*
-*On first startup, the database is automatically created, schema migrated, FDA sample dataset (616 notices) ingested, and test accounts/reviews seeded.*
-
-### 6. Run Automated Tests
-```bash
-dotnet test
-```
+Open your browser and visit: **http://localhost:5000**  
+*(Note: Use `http://`, not `https://`, for local development)*.
 
 ---
 
-## 🔑 Default User Credentials
+## 2. Test User Accounts
 
-| Role | Username / Email | Password | Access Rights |
+The database seeds automatically with all 616 recall notices and test accounts on first launch:
+
+| Role | Email | Password | Landing Page |
 | :--- | :--- | :--- | :--- |
-| **Employee** (Compliance Officer) | `employee@andtr.test` | `Employee#123` | Full access: Ingestion, notice catalog, review creation, rich-text findings, sharing, customer management, reports. |
-| **Customer** (Hospital Officer) | `customer@andtr.test` | `Customer#123` | Restricted access: Customer portal, shared reviews, two-way comment threads, executive report printing. |
+| **Employee** | `employee@andtr.co.uk` | `Password123!` | Employee Dashboard (`/Dashboard/Employee`) |
+| **Customer** | `customer@nhs.uk` | `Password123!` | Customer Portal (`/Dashboard/Customer`) |
 
 ---
 
-##  Branching & Git Workflow
+## 3. Project Structure
 
-All development follows trunk-based feature branching:
-```bash
-# Example feature branch creation
-git checkout -b feature/suryanath-dashboard-search
-git checkout -b feature/azlan-notice-import
-git checkout -b feature/hassan-reviews-findings
-git checkout -b feature/sanjida-sharing-collaboration
-git checkout -b feature/tamilore-customer-portal
+The project follows standard ASP.NET Core MVC structure:
+
+```text
+ANDtr/
+├── Controllers/       # MVC Controllers for all features
+├── Models/            # Database entities (EF Core)
+├── ViewModels/        # Strongly-typed models for views
+├── Views/             # Razor views (.cshtml) organised by controller
+│   ├── Accounts/
+│   ├── Dashboard/
+│   ├── Sharing/
+│   ├── Import/
+│   ├── Search/
+│   ├── Filters/
+│   ├── Reviews/
+│   ├── Findings/
+│   ├── SharedReviews/
+│   ├── Notices/
+│   ├── Customers/
+│   ├── Reports/
+│   └── Shared/        # Layouts (_Layout, _EmployeeLayout, _CustomerLayout)
+├── Services/          # Business logic and database operations
+├── data/              # Initial seed files (FDAdataset.xlsx)
+├── docs/              # 15 User Stories specification
+├── wwwroot/           # Static files (CSS, JS, images)
+└── Program.cs         # App configuration and dependency injection
 ```
-*Pull requests require passing unit tests and code review before merging into `main`.*
 
 ---
 
-##  Running Automated Tests
+## 4. Team Member Contribution Mapping (15 User Stories)
 
-Run the full xUnit test suite covering search, import, review CRUD, sharing security, and comment threads:
+Each team member is responsible for 3 user stories, along with their matching controllers, views, and services:
+
+| Member | User Stories | Assigned Controllers & Services | Assigned Views |
+| :--- | :--- | :--- | :--- |
+| **Suryanath Sunil** | **US-01:** Login & Lockout<br>**US-02:** Role-Based Dashboards<br>**US-03:** Share Reviews with Customers | `AccountsController.cs`<br>`DashboardController.cs`<br>`SharingController.cs`<br>`ShareService.cs` | `Views/Accounts/`<br>`Views/Dashboard/`<br>`Views/Sharing/` |
+| **Azlan Ahmed** | **US-04:** Import FDA Excel File (616 notices)<br>**US-05:** Search Notices by Keyword<br>**US-06:** Synonym Search & Highlighting | `ImportController.cs`<br>`SearchController.cs`<br>`ImportService.cs`<br>`NoticeSearchService.cs` | `Views/Import/`<br>`Views/Search/` |
+| **Hassan Naveed** | **US-07:** Filter by Class, Firm & Date<br>**US-08:** Paged Results & Notice Selection Basket<br>**US-09:** Create & Edit Risk Reviews | `FiltersController.cs`<br>`ReviewsController.cs`<br>`ReviewService.cs` | `Views/Filters/`<br>`Views/Reviews/` |
+| **Sanjida Afrin** | **US-10:** Clinical Findings Editor<br>**US-11:** Customer Portal Shared Reviews<br>**US-12:** Comments on Reviews | `FindingsController.cs`<br>`SharedReviewsController.cs`<br>`CommentService.cs` | `Views/Findings/`<br>`Views/SharedReviews/` |
+| **Tamilore Adekanye** | **US-13:** Full Notice Details View<br>**US-14:** Customer Account Management<br>**US-15:** Print Review Report & Export CSV | `NoticesController.cs`<br>`CustomersController.cs`<br>`ReportsController.cs`<br>`CustomerService.cs`<br>`ReportService.cs` | `Views/Notices/`<br>`Views/Customers/`<br>`Views/Reports/` |
+
+---
+
+## 5. Automated Tests
+
+Run the xUnit test suite (21 unit tests covering all 15 user stories):
+
 ```bash
-dotnet test tests/ANDtr.Tests/ANDtr.Tests.csproj --logger "console;verbosity=detailed"
+dotnet test tests/ANDtr.Tests/ANDtr.Tests.csproj
 ```
 
 ---
 
-##  Documentation Links
-- [Architecture & Design Guide](docs/ARCHITECTURE.md)
-- [Database ER Diagram & Schema](docs/ER_DIAGRAM.md)
-- [Comprehensive Test Plan (20+ Cases)](docs/TEST_PLAN.md)
-- [2-Year Maintenance & Scalability Plan](docs/MAINTENANCE.md)
+## 6. Coursework Reference
+The specification of all 15 User Stories with acceptance criteria is located in:
+* `docs/TEAM_USER_STORIES_15.md`

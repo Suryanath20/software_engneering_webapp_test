@@ -1,0 +1,187 @@
+@model ANDtr.Web.Features.Findings.FindingsViewModel
+@{
+    Layout = "_EmployeeLayout";
+    ViewData["Title"] = "Add Findings & Comments";
+    var noticeRecallNumber = Model.ActiveNotice?.RecallNumber ?? "Review";
+}
+
+<p>
+    <a class="back" href="/Reviews">
+        <svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to My Risk Reviews
+    </a>
+</p>
+
+<div class="head">
+    <div>
+        <h1>Add Findings for @noticeRecallNumber</h1>
+        <p class="muted small">Review: <b>@Model.Review.Title</b></p>
+    </div>
+</div>
+
+<div class="cols">
+    <div>
+        @if (Model.ActiveNotice != null)
+        {
+            <section class="panel">
+                <h2>Notice summary</h2>
+                <table class="kv">
+                    <tr>
+                        <th>Product</th>
+                        <td><b>@(string.IsNullOrEmpty(Model.ActiveNotice.TradeName) ? Model.ActiveNotice.ProductCodeName : Model.ActiveNotice.TradeName)</b></td>
+                    </tr>
+                    <tr>
+                        <th>Firm</th>
+                        <td>@Model.ActiveNotice.FirmName</td>
+                    </tr>
+                    <tr>
+                        <th>Recall class</th>
+                        <td>
+                            @if (Model.ActiveNotice.RecallClass == "1")
+                            {
+                                <span class="badge b-red">Class I</span>
+                            }
+                            else if (Model.ActiveNotice.RecallClass == "2")
+                            {
+                                <span class="badge b-amber">Class II</span>
+                            }
+                            else
+                            {
+                                <span class="badge b-green">Class III</span>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Recall reason</th>
+                        <td class="wrap">@Model.ActiveNotice.RecallReason</td>
+                    </tr>
+                </table>
+            </section>
+        }
+
+        <!-- Employee Comment Form with Toolbar -->
+        <section class="panel">
+            <h2>Add Comment / Observation</h2>
+            <form asp-controller="Findings" asp-action="SaveComment" method="post">
+                <input type="hidden" name="reviewId" value="@Model.Review.Id" />
+                <input type="hidden" name="noticeId" value="@Model.ActiveNotice?.Id" />
+
+                <label for="findComment">Comment text <span class="req">*</span></label>
+                <textarea id="findComment" name="body" rows="4" placeholder="Enter specific observations or notes for this notice..." required></textarea>
+
+                <div class="actions">
+                    <button class="btn btn-primary" type="submit">Save Comment</button>
+                    <a class="btn btn-outline" href="/Reviews">Cancel</a>
+                </div>
+            </form>
+        </section>
+
+        <!-- Rich Text Overall Findings Editor -->
+        <section class="panel panel-brand">
+            <h2 class="brand-t">Review Findings & Risk Assessment</h2>
+            <p class="muted small">Write comprehensive findings that will be visible in printable reports and to customers when shared.</p>
+            <form asp-controller="Findings" asp-action="UpdateFindings" method="post">
+                <input type="hidden" name="reviewId" value="@Model.Review.Id" />
+                <input type="hidden" name="noticeId" value="@Model.ActiveNotice?.Id" />
+                <input type="hidden" name="findingsHtml" class="js-editor-target" />
+
+                <div class="editor">
+                    <div class="tb" role="toolbar" aria-label="Text formatting">
+                        <button type="button" data-cmd="bold" aria-label="Bold"><b>B</b></button>
+                        <button type="button" data-cmd="italic" aria-label="Italic"><i>I</i></button>
+                        <button type="button" data-cmd="underline" aria-label="Underline"><u>U</u></button>
+                        <button type="button" data-cmd="insertOrderedList" aria-label="Numbered list">1.</button>
+                        <button type="button" data-cmd="insertUnorderedList" aria-label="Bulleted list">&bull;</button>
+                    </div>
+                    <div class="ed" id="findEd" style="min-height:160px" contenteditable="true" role="textbox" aria-multiline="true" data-ph="Enter your findings, clinical risk assessment, and recommended mitigation actions...">@Html.Raw(Model.Review.FindingsHtml)</div>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:16px; margin-top:16px;">
+                    <label style="margin:0; font-weight:600;">Status:</label>
+                    <select name="status" style="width:auto; padding:6px 12px;">
+                        <option value="Draft" selected="@(Model.Review.Status == "Draft")">Draft</option>
+                        <option value="Published" selected="@(Model.Review.Status == "Published")">Published</option>
+                    </select>
+                </div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" type="submit">Save Findings</button>
+                    <a class="btn btn-outline" href="/Reports?reviewId=@Model.Review.Id">Preview Report</a>
+                </div>
+            </form>
+        </section>
+
+        <!-- Saved Comments List -->
+        <section class="panel">
+            <h2>Saved Comments (@Model.Comments.Count)</h2>
+            @if (Model.Comments.Count == 0)
+            {
+                <p class="muted small">No comments recorded yet. Use the form above to add notes.</p>
+            }
+            else
+            {
+                @foreach (var c in Model.Comments)
+                {
+                    var isEmp = c.AuthorRole == "Employee";
+                    var init = !string.IsNullOrEmpty(c.AuthorName) ? c.AuthorName.Substring(0, 1).ToUpper() : "U";
+                    <div class="cmt">
+                        <div class="av @(isEmp ? "av-r" : "av-b")">@init</div>
+                        <div class="grow">
+                            <div class="meta">
+                                <b>@c.AuthorName</b>
+                                @if (isEmp)
+                                {
+                                    <span class="badge b-brand">Employee</span>
+                                }
+                                else
+                                {
+                                    <span class="badge b-grey">Customer</span>
+                                    @if (!string.IsNullOrEmpty(c.AuthorCompany))
+                                    {
+                                        <small class="muted">(@c.AuthorCompany)</small>
+                                    }
+                                }
+                                <span class="muted small">@c.CreatedAt.ToString("d MMM yyyy, HH:mm")</span>
+                            </div>
+                            <p>@c.Body</p>
+                        </div>
+                    </div>
+                }
+            }
+        </section>
+    </div>
+
+    <!-- Aside Sidebar -->
+    <aside>
+        <section class="panel">
+            <h2>Notices in this review</h2>
+            @if (Model.Review.ReviewNotices.Count == 0)
+            {
+                <p class="muted small">No notices in this review.</p>
+            }
+            else
+            {
+                <ul class="nlist">
+                    @foreach (var rn in Model.Review.ReviewNotices)
+                    {
+                        var isCur = Model.ActiveNotice != null && rn.NoticeId == Model.ActiveNotice.Id;
+                        <li class="@(isCur ? "cur" : "")">
+                            <a href="/Findings?reviewId=@Model.Review.Id&noticeId=@rn.NoticeId" style="color:inherit; text-decoration:none;">
+                                <b>@rn.Notice.RecallNumber</b>
+                                <small>@(string.IsNullOrEmpty(rn.Notice.TradeName) ? rn.Notice.ProductCodeName : rn.Notice.TradeName)</small>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            }
+        </section>
+
+        <section class="panel">
+            <h2>Sharing</h2>
+            <p class="muted small">
+                Shared with @Model.ActiveShareCount customer@(Model.ActiveShareCount == 1 ? "" : "s"). They can read your findings and add comments.
+            </p>
+            <a class="btn btn-outline btn-sm btn-block" href="/Sharing?reviewId=@Model.Review.Id">Manage sharing</a>
+        </section>
+    </aside>
+</div>

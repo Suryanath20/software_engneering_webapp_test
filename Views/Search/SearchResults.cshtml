@@ -1,0 +1,92 @@
+@model ANDtr.Web.Features.Search.SearchResultsViewModel
+@{
+    Layout = "_EmployeeLayout";
+    ViewData["Title"] = "Search Results";
+    var keyword = Model.Criteria.Keyword ?? "";
+    var baseUrl = $"/Search/Results?keyword={System.Net.WebUtility.UrlEncode(keyword)}&matchPartialWords={Model.Criteria.MatchPartialWords}&includeRelatedTerms={Model.Criteria.IncludeRelatedTerms}";
+}
+
+<div class="head">
+    <div>
+        <h1>Search Results</h1>
+        <p class="muted small">
+            Found <b>@Model.Results.TotalCount</b> notices matching "@(string.IsNullOrEmpty(keyword) ? "all notices" : keyword)". Matching words are highlighted.
+        </p>
+    </div>
+    <div class="head-act">
+        <a class="btn btn-outline" href="/Search">
+            <svg class="ic sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            New search
+        </a>
+    </div>
+</div>
+
+<div class="chips">
+    @if (!string.IsNullOrEmpty(keyword))
+    {
+        <span class="chip">Keyword: @keyword</span>
+    }
+    <span class="chip">Partial words @(Model.Criteria.MatchPartialWords ? "on" : "off")</span>
+    <span class="chip">Related terms @(Model.Criteria.IncludeRelatedTerms ? "on" : "off")</span>
+</div>
+
+@if (Model.Results.TotalCount == 0)
+{
+    <div class="alert alert-info">
+        No notices match your search. Check the spelling or try fewer words.
+    </div>
+}
+else
+{
+    <div class="tbl-wrap">
+        <table class="tbl">
+            <thead>
+                <tr>
+                    <th>Recall number</th>
+                    <th>Product</th>
+                    <th>Firm</th>
+                    <th>Class</th>
+                    <th>Classified</th>
+                    <th>Recall reason</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var notice in Model.Results.Items)
+                {
+                    <tr>
+                        <td class="mono">@notice.RecallNumber</td>
+                        <td>
+                            <b>@(string.IsNullOrEmpty(notice.TradeName) ? notice.ProductCodeName : notice.TradeName)</b>
+                            <small>Product code @notice.ProductCode</small>
+                        </td>
+                        <td>@notice.FirmName</td>
+                        <td>
+                            @if (notice.RecallClass == "1")
+                            {
+                                <span class="badge b-red">Class I</span>
+                            }
+                            else if (notice.RecallClass == "2")
+                            {
+                                <span class="badge b-amber">Class II</span>
+                            }
+                            else
+                            {
+                                <span class="badge b-green">Class III</span>
+                            }
+                        </td>
+                        <td>@notice.ClassificationDate.ToString("d MMM yyyy")</td>
+                        <td class="reason">
+                            @Html.Raw(SearchResultsViewModel.Highlight(notice.RecallReason, keyword, 160))
+                        </td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" href="/Notices/Details/@notice.Id">View</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <partial name="_Pager" model="(Model.Results.PageNumber, Model.Results.TotalPages, Model.Results.TotalCount, Model.Results.PageSize, baseUrl)" />
+}
